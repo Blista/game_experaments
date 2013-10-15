@@ -11,29 +11,28 @@ import com.badlogic.gdx.math.Vector2;
 public class Player extends Entity implements InputProcessor{
 	AssetManager manager;
 	static Texture playerTex, playerTexLeft, playerTexRight;
-	Sprite sprite;
+	//Sprite sprite;
 	float maxSpeed;
 	//float scaleSpeed;
 	boolean jumping, down, left, right;
-	Vector2 velocity;
+	
 	Vector2 grav, jump;
 	//float scale = 1;
 	//Circle hitbox;
 	Rectangle hitbox;
 	
-	protected Player(String imgLoc) {
+	protected Player(String imgLoc, float x, float y, float width, float height) {
 		
-		super(imgLoc);
-		sprite.setScale((float)0.1);
+		super(imgLoc, x, y, width, height);
+		sprite.setScale((float)1);
 		
-		velocity = new Vector2();
 		//scale = 1;
 		jumping = false;
 		down = false;
 		left = false;
 		right = false;
-		maxSpeed = 100f;
-		grav = new Vector2(0, -50);
+		maxSpeed = 400f;
+		grav = new Vector2(0, -10);
 		jump = new Vector2(0, 300);
 		
 		//hitbox = new Circle(sprite.getX(), sprite.getY(), Math.max(sprite.getWidth(), sprite.getHeight()));
@@ -69,11 +68,11 @@ public class Player extends Entity implements InputProcessor{
 		*/
 		if(left && velocity.x >= 0){
 			//velocity = new Vector2(-maxSpeed, (float)0);
-			velocity.add(-maxSpeed, 0);
+			velocity.add(-100, 0);
 		}
 		if(right && velocity.x <= 0){
 			//velocity = new Vector2(maxSpeed, (float)0);
-			velocity.add(maxSpeed, 0);
+			velocity.add(100, 0);
 		}
 		
 		
@@ -89,6 +88,34 @@ public class Player extends Entity implements InputProcessor{
 	
 	public void render(SpriteBatch batch){
 		sprite.draw(batch);
+	}
+	
+	public boolean collision(Rectangle r){
+		if(hitbox.overlaps(r) || hitbox.contains(r)){
+			if(left && hitbox.x - r.x >= 0 && hitbox.x - r.x <= r.width){
+				left = false;
+				sprite.setPosition(sprite.getX()+2, sprite.getY());
+				velocity.x = 0;
+			}
+			if(right && r.x - hitbox.x >= 0 && r.x - hitbox.x <= hitbox.width){
+				right = false;
+				sprite.setPosition(sprite.getX()-2, sprite.getY());
+				velocity.x = 0;
+			}
+			if(down && hitbox.y - r.y >= 0 && hitbox.y - r.y <= r.height){
+				down = false;
+				sprite.setPosition(sprite.getX(), r.getY()+r.getHeight());
+				velocity.y = 0;
+				//ground = true;
+			}
+			if(r.y - hitbox.y >= 0 && r.y - hitbox.y <= hitbox.height){
+				sprite.setPosition(r.getY()+r.getHeight());
+				velocity.y = 0;
+			}
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override

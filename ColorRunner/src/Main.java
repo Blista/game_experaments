@@ -48,19 +48,19 @@ public class Main implements ApplicationListener{
 		//toRemove = new LinkedList<Entity>();
 		
 		
-		player = new Player("somefile");
+		player = new Player("res/CharacterImage.png", 100, 100, 50, 50);
 		//player.sprite.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		//entities.add(player);
 		
 		
-		LinkedList<Level> tempLvl;
+		LinkedList<Level> tempLvl = new LinkedList<Level>();
 		levelStatus = 0;
-		gameProg = 1;
+		gameProg = 0;
 		
-		tempLvl = new LinkedList<Level>();
+		tempLvl.add(lev1());
 		
-		//levels = (Level[]) tempLvl.toArray(new Level[0]);
-		//levels[gameProg].levelStart(Gdx.graphics.getDeltaTime(), text);
+		levels = (Level[]) tempLvl.toArray(new Level[0]);
+		levels[gameProg].levelStart(Gdx.graphics.getDeltaTime());
 		
 		Gdx.input.setInputProcessor(player);		
 	}
@@ -73,6 +73,7 @@ public class Main implements ApplicationListener{
 
 	@Override
 	public void render() {
+		levels[gameProg].update(Gdx.graphics.getDeltaTime());
 		
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
@@ -87,7 +88,12 @@ public class Main implements ApplicationListener{
 	@Override
 	public void resume() {	}
 	
-	
+	public Level lev1(){
+		Level lev = new Level(player, viewport);
+		lev.makeWall("res/bullet.png", 0, 0, 400, 50);
+		lev.setStartPos(100, 100);
+		return lev;
+	}
 	
 	
 }

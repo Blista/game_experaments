@@ -11,20 +11,23 @@ public class Entity {
 	AssetManager manager;
 	static Texture entityTex;
 	Sprite sprite;
+	Vector2 velocity;
 	//float scale = 1;
 	//Circle hitbox;
 	Rectangle hitbox;
 	
-	protected Entity(String imgLoc) {
+	protected Entity(String imgLoc, float x, float y, float width, float height) {
 		manager = new AssetManager();
 		manager.load(imgLoc, Texture.class);
 		manager.finishLoading();
 		
 		entityTex = manager.get(imgLoc, Texture.class);
 		
-		sprite = new Sprite(entityTex);
+		velocity = new Vector2();
+		
+		sprite = new Sprite(entityTex, (int)x, (int)y, (int)width, (int)height);
 		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
-		sprite.setScale((float)0.1);
+		//sprite.setScale((float)0.1);
 		
 		hitbox = new Rectangle();
 		hitbox.setWidth(sprite.getWidth()*sprite.getScaleX());
@@ -47,24 +50,38 @@ public class Entity {
 	}
 	
 	
+	/*
 	public Direction collision(Rectangle r){
 		if(hitbox.overlaps(r) || hitbox.contains(r)){
-			if(hitbox.x - r.x >= 0 && hitbox.x - r.x <= r.width){
+			if(velocity.x < 0 && hitbox.x - r.x >= 0 && hitbox.x - r.x <= r.width){
+				if(velocity.y < 0 && hitbox.y - r.y >= 0 && hitbox.y - r.y <= r.height){
+					return Direction.leftDown;
+				}
+				if(velocity.y > 0 && r.y - hitbox.y >= 0 && r.y - hitbox.y <= hitbox.height){
+					return Direction.leftUp;
+				}
 				return Direction.left;
 			}
-			if(r.x - hitbox.x >= 0 && r.x - hitbox.x <= hitbox.width){
+			if(velocity.x > 0 && r.x - hitbox.x >= 0 && r.x - hitbox.x <= hitbox.width){
+				if(velocity.y < 0 && hitbox.y - r.y >= 0 && hitbox.y - r.y <= r.height){
+					return Direction.rightDown;
+				}
+				if(velocity.y > 0 && r.y - hitbox.y >= 0 && r.y - hitbox.y <= hitbox.height){
+					return Direction.rightUp;
+				}
 				return Direction.right;
 			}
-			if(hitbox.y - r.y >= 0 && hitbox.y - r.y <= r.height){
+			if(velocity.y < 0 && hitbox.y - r.y >= 0 && hitbox.y - r.y <= r.height){
 				return Direction.down;
 			}
-			if(r.y - hitbox.y >= 0 && r.y - hitbox.y <= hitbox.height){
+			if(velocity.y > 0 && r.y - hitbox.y >= 0 && r.y - hitbox.y <= hitbox.height){
 				return Direction.up;
 			}
+			
 		}
 		return Direction.still;
 	}
-	
+	*/
 	/*
 	public void collX(float x){
 		if(left && hitbox.x+hitbox.width - x >= 0 && hitbox.x - x <= 0){
