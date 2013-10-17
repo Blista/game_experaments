@@ -46,11 +46,11 @@ public class Level {
 	public int update(float delta){
 		
 		for(Entity w : walls){
+			player.update(delta);
+			w.update(delta);
 			player.collision(w.hitbox);
 		}
 		
-		
-		player.update(delta);
 		return 0;
 	}
 	

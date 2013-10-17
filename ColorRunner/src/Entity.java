@@ -25,24 +25,34 @@ public class Entity {
 		
 		velocity = new Vector2();
 		
-		sprite = new Sprite(entityTex, (int)x, (int)y, (int)width, (int)height);
-		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
+		sprite = new Sprite(entityTex);//
+		sprite.setX(x);
+		sprite.setY(y);
+		sprite.setSize(width, height);
+		sprite.setOrigin(0,0);
+		//sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
 		//sprite.setScale((float)0.1);
 		
 		hitbox = new Rectangle();
-		hitbox.setWidth(sprite.getWidth()*sprite.getScaleX());
-		hitbox.setHeight(sprite.getHeight()*sprite.getScaleY());
+		//hitbox.setX(x);
+		//hitbox.setY(y);
+		hitbox.setWidth(width);//sprite.getWidth()*sprite.getScaleX());
+		hitbox.setHeight(height);//sprite.getHeight()*sprite.getScaleY());
 	}
 	
 	
 	public void setPosition(float x, float y){
-		float horiz = x - sprite.getWidth()/2 + sprite.getWidth()*sprite.getScaleX()/2;
-		float vert = y - sprite.getHeight()/2 + sprite.getHeight()*sprite.getScaleY()/2;
-		sprite.setPosition(horiz, vert);
+		//float horiz = x - sprite.getWidth()/2 + sprite.getWidth()*sprite.getScaleX()/2;
+		//float vert = y - sprite.getHeight()/2 + sprite.getHeight()*sprite.getScaleY()/2;
+		
+		sprite.setPosition(x, y);
 	}
 	
 	public void update(float delta){
-		
+		//hitbox.x = sprite.getX()+sprite.getWidth()/2 -hitbox.width/2;
+		//hitbox.y = sprite.getY()+sprite.getHeight()/2 -hitbox.height/2;
+		hitbox.x = sprite.getX();
+		hitbox.y = sprite.getY();
 	}
 	
 	public void render(SpriteBatch batch){
