@@ -16,7 +16,7 @@ public class Player extends Entity implements InputProcessor{
 	//float scaleSpeed;
 	boolean jumping, down, left, right;
 	
-	Vector2 grav, jump;
+	Vector2 grav, jump, slide;
 	//float scale = 1;
 	
 	protected Player(String imgLoc, float x, float y, float width, float height) {
@@ -31,6 +31,7 @@ public class Player extends Entity implements InputProcessor{
 		right = false;
 		maxSpeed = 400f;
 		grav = new Vector2(0, -10);
+		slide = new Vector2(0, 6);
 		jump = new Vector2(0, 300);
 		
 	}
@@ -56,11 +57,11 @@ public class Player extends Entity implements InputProcessor{
 		*/
 		if(left && velocity.x >= 0){
 			//velocity = new Vector2(-maxSpeed, (float)0);
-			velocity.add(-100, 0);
+			velocity.add(-200, 0);
 		}
 		if(right && velocity.x <= 0){
 			//velocity = new Vector2(maxSpeed, (float)0);
-			velocity.add(100, 0);
+			velocity.add(200, 0);
 		}
 		
 		
@@ -77,40 +78,38 @@ public class Player extends Entity implements InputProcessor{
 	}
 	
 	public boolean collision(Rectangle r){
-		float horiz = hitbox.getWidth();//*sprite.getScaleX()/2;
-		float vert = hitbox.getHeight();//*sprite.getScaleY()/2;
 		int buffer = 10;
 		
 		if(hitbox.overlaps(r) || hitbox.contains(r)){
-			if(velocity.x < 0 && hitbox.x - r.x > 0 && hitbox.x - r.x < r.width
-					&& !( (hitbox.y - r.y > 0 && hitbox.y - r.y <= r.height && hitbox.y - r.y >= r.height - buffer)
-					|| (r.y + r.height - hitbox.y > 0 && r.y - hitbox.y <= hitbox.height && r.y - hitbox.y >= hitbox.height + buffer) )
+			if(velocity.x < 0 && hitbox.x + hitbox.width - r.x - r.width > 0 && hitbox.x - r.x < r.width
+					&& !((hitbox.y - r.y <= r.height && hitbox.y - r.y >= r.height - buffer)
+					|| (r.y - hitbox.y <= hitbox.height && r.y - hitbox.y >= hitbox.height + buffer)) 
 					){
 				sprite.setPosition(r.x + r.getWidth(), sprite.getY());
 				velocity.x = 0;
 				enableJump();
 			}
-			if(velocity.x > 0 && r.x + r.width - hitbox.x > 0 && r.x - hitbox.x < hitbox.width
-					&& !( (hitbox.y - r.y > 0 && hitbox.y - r.y <= r.height && hitbox.y - r.y >= r.height - buffer)
-					|| (r.y + r.height - hitbox.y > 0 && r.y - hitbox.y <= hitbox.height && r.y - hitbox.y >= hitbox.height + buffer) ) 
+			if(velocity.x > 0 && hitbox.x - r.x < 0 && r.x - hitbox.x < hitbox.width
+					&& !((hitbox.y - r.y <= r.height && hitbox.y - r.y >= r.height - buffer)
+					|| (r.y - hitbox.y <= hitbox.height && r.y - hitbox.y >= hitbox.height + buffer)) 
 					){
-				sprite.setPosition(r.x - horiz, sprite.getY());
+				sprite.setPosition(r.x - hitbox.width, sprite.getY());
 				velocity.x = 0;
 				enableJump();
 			}
-			if(velocity.y < 0 && hitbox.y - r.y > 0 && hitbox.y - r.y < r.height
-					&& !((hitbox.x - r.x > 0 && hitbox.x - r.x <= r.width && hitbox.x - r.x >= r.width - buffer)
-					|| (r.x + r.width - hitbox.x > 0 && r.x - hitbox.x <= hitbox.width && r.x - hitbox.x >= hitbox.width + buffer)					)
+			if(velocity.y < 0 && hitbox.y + hitbox.height - r.y - r.height > 0 && hitbox.y - r.y < r.height
+					&& !((hitbox.x - r.x <= r.width && hitbox.x - r.x >= r.width - buffer)
+					|| (r.x - hitbox.x <= hitbox.width && r.x - hitbox.x >= hitbox.width + buffer))
 					){
 				sprite.setPosition(sprite.getX(), r.y + r.getHeight());
 				velocity.y = 0;
 				enableJump();
 			}
-			if(velocity.y > 0 && r.y + r.height - hitbox.y > 0 && r.y - hitbox.y < hitbox.height
-					&& !((hitbox.x - r.x > 0 && hitbox.x - r.x <= r.width && hitbox.x - r.x >= r.width - buffer)
-					|| (r.x + r.width - hitbox.x > 0 && r.x - hitbox.x <= hitbox.width && r.x - hitbox.x >= hitbox.width + buffer)					)
+			if(velocity.y > 0 && hitbox.y - r.y < 0 && r.y - hitbox.y < hitbox.height
+					&& !((hitbox.x - r.x <= r.width && hitbox.x - r.x >= r.width - buffer)
+					|| (r.x - hitbox.x <= hitbox.width && r.x - hitbox.x >= hitbox.width + buffer))
 					){
-				sprite.setPosition(sprite.getX(), r.y - vert);
+				sprite.setPosition(sprite.getX(), r.y - hitbox.height);
 				velocity.y = 0;
 			}
 			return true;

@@ -90,7 +90,15 @@ public class Main implements ApplicationListener{
 	
 	public Level lev1(){
 		Level lev = new Level(player, viewport);
-		lev.makeWall("res/bullet.png", 10, 200, 400, 50);
+		lev.makeWall("res/bullet.png", 10, 200, 800, 50);
+		
+		lev.makeWall("res/bullet.png", 100, 300, 80, 10);
+		
+		lev.makeWall("res/bullet.png", 200, 400, 100, 50);
+		
+		lev.makeWall("res/bullet.png", 800, 200, 20, 600);
+		
+		
 		lev.setStartPos(100, 500);
 		return lev;
 	}
