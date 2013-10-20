@@ -38,7 +38,6 @@ public class Level {
 		player.setPosition(startX, startY);
 		return update(delta);
 	}
-	
 	public void levelEnd(){
 		
 	}
@@ -48,8 +47,10 @@ public class Level {
 		for(Entity w : walls){
 			player.update(delta);
 			w.update(delta);
-			player.collision(w.hitbox);
+			//player.alignDirection(w.hitbox);
+			player.collision(w.hitbox, player.alignDirection(w.hitbox));
 		}
+		
 		
 		return 0;
 	}
