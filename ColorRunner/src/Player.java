@@ -10,14 +10,16 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Entity implements InputProcessor{
 	AssetManager manager;
-	static Texture playerTex, playerTexLeft, playerTexRight;
+	static Texture playerTex, red, yellow, blue, orange, purple, green, black, white;
 	//Sprite sprite;
 	float maxSpeed;
 	//float scaleSpeed;
 	boolean jumping, down, left, right;
+	boolean redB, yellowB, blueB;
 	Vector2 grav, jump, slide;
 	final static int BOX4C = 21;
 	Rectangle[] botCollision, topCollision, rightCollision, leftCollision;
+	String color = "white";
 	
 	//float scale = 1;
 	
@@ -34,21 +36,36 @@ public class Player extends Entity implements InputProcessor{
 		grav = new Vector2(0, -5);
 		slide = new Vector2(0, 6);
 		jump = new Vector2(0, 300);
-		/*Rectangle[] botCollision = new Rectangle[BOX4C];
-		Rectangle[] topCollision = new Rectangle[BOX4C];
-		Rectangle[] leftCollision = new Rectangle[BOX4C];
-		Rectangle[] rightCollision = new Rectangle[BOX4C];
 		
-		float boxWidth = width / BOX4C;
-		float boxHeight = height / BOX4C;
+		manager = new AssetManager();
+		manager.load("res/red.png", Texture.class);
+		manager.load("res/yellow.png", Texture.class);
+		manager.load("res/blue.png", Texture.class);
+		manager.load("res/orange.png", Texture.class);
+		manager.load("res/purple.png", Texture.class);
+		manager.load("res/green.png", Texture.class);
+		manager.load("res/black.png", Texture.class);
+		manager.load("res/CharacterImage.png", Texture.class);
+		manager.finishLoading();
 		
-		for(int i = 0; i < BOX4C; i++)
-		{
-			botCollision[i] = new Rectangle(x + (boxWidth*i),y,boxWidth,height/2);
-			topCollision[i] = new Rectangle(x + (boxWidth*i),y+height/2, boxWidth, height/2);
-			leftCollision[i] = new Rectangle(x, y + (boxHeight*i), width/2, boxHeight);
-			rightCollision[i] = new Rectangle(x + width/2, y + (boxHeight*i), width/2, boxHeight);
-		}*/
+		red = manager.get("res/red.png", Texture.class);
+		yellow = manager.get("res/yellow.png", Texture.class);
+		blue  = manager.get("res/blue.png", Texture.class);
+		orange = manager.get("res/orange.png", Texture.class);
+		purple = manager.get("res/purple.png", Texture.class);
+		green = manager.get("res/green.png", Texture.class);
+		black = manager.get("res/black.png", Texture.class);
+		white = manager.get("res/CharacterImage.png", Texture.class);
+		
+		
+		/*Sprite redSprite = new Sprite(manager.get("res/red.png", Texture.class));
+		Sprite yellowSprite = new Sprite(manager.get("res/yellow.png", Texture.class));
+		Sprite blueSprite = new Sprite(manager.get("res/blue.png", Texture.class));
+		Sprite orangeSprite = new Sprite(manager.get("res/orange.png", Texture.class));
+		Sprite purpleSprite = new Sprite(manager.get("res/purple.png", Texture.class));
+		Sprite greenSprite = new Sprite(manager.get("res/green.png", Texture.class));
+		Sprite blackSprite = new Sprite(manager.get("res/black.png", Texture.class));*/
+		
 		initCollBoxes(x,y,width,height);		
 	}
 	
@@ -93,6 +110,7 @@ public class Player extends Entity implements InputProcessor{
 		//hitbox.y = sprite.getY();
 		
 		moveBox();
+		changeColor();
 	}
 	
 	public void collision(Rectangle r, Direction dir){
@@ -132,50 +150,11 @@ public class Player extends Entity implements InputProcessor{
 			velocity.x = 0;
 			velocity.y = 0;
 		}
-		
-		/*int buffer = 10;
-		
-		if(hitbox.overlaps(r) || hitbox.contains(r)){
-			if(velocity.x < 0 && hitbox.x + hitbox.width - r.x - r.width > 0 && hitbox.x - r.x < r.width
-					&& !((hitbox.y - r.y <= r.height && hitbox.y - r.y >= r.height - buffer)
-					|| (r.y - hitbox.y <= hitbox.height && r.y - hitbox.y >= hitbox.height + buffer)) 
-					){
-				sprite.setPosition(r.x + r.getWidth(), sprite.getY());
-				velocity.x = 0;
-				enableJump();
-			}
-			if(velocity.x > 0 && hitbox.x - r.x < 0 && r.x - hitbox.x < hitbox.width
-					&& !((hitbox.y - r.y <= r.height && hitbox.y - r.y >= r.height - buffer)
-					|| (r.y - hitbox.y <= hitbox.height && r.y - hitbox.y >= hitbox.height + buffer)) 
-					){
-				sprite.setPosition(r.x - hitbox.width, sprite.getY());
-				velocity.x = 0;
-				enableJump();
-			}
-			if(velocity.y < 0 && hitbox.y + hitbox.height - r.y - r.height > 0 && hitbox.y - r.y < r.height
-					&& !((hitbox.x - r.x <= r.width && hitbox.x - r.x >= r.width - buffer)
-					|| (r.x - hitbox.x <= hitbox.width && r.x - hitbox.x >= hitbox.width + buffer))
-					){
-				sprite.setPosition(sprite.getX(), r.y + r.getHeight());
-				velocity.y = 0;
-				enableJump();
-			}
-			if(velocity.y > 0 && hitbox.y - r.y < 0 && r.y - hitbox.y < hitbox.height
-					&& !((hitbox.x - r.x <= r.width && hitbox.x - r.x >= r.width - buffer)
-					|| (r.x - hitbox.x <= hitbox.width && r.x - hitbox.x >= hitbox.width + buffer))
-					){
-				sprite.setPosition(sprite.getX(), r.y - hitbox.height);
-				velocity.y = 0;
-			}
-			return true;
-		}
-		
-		return false;*/
-		
 	}
 	
 	@Override
 	public boolean keyDown(int keycode) {
+		
 		if(!jumping && (keycode == Keys.W || keycode == Keys.SPACE)){
 			velocity.add(jump);
 			jumping = true;
@@ -192,6 +171,18 @@ public class Player extends Entity implements InputProcessor{
 		if(keycode == Keys.D){
 			right = true;
 			return true;
+		}
+		if(keycode == Keys.I)
+		{
+			redB = true;
+		}
+		if(keycode == Keys.O)
+		{
+			yellowB = true; 
+		}
+		if(keycode == Keys.P)
+		{
+			blueB = true;
 		}
 		return false;
 	}
@@ -222,6 +213,18 @@ public class Player extends Entity implements InputProcessor{
 			//velocity.sub((float)Math.cos(velocity.angle())*maxSpeed, (float)0);
 			return true;
 		}
+		if(keycode == Keys.I)
+		{
+			redB = false;
+		}
+		if(keycode == Keys.O)
+		{
+			yellowB = false; 
+		}
+		if(keycode == Keys.P)
+		{
+			blueB = false;
+		}
 		return false;
 	}
 	
@@ -240,6 +243,7 @@ public class Player extends Entity implements InputProcessor{
 	@Override
 	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -368,6 +372,49 @@ public class Player extends Entity implements InputProcessor{
 			
 			rightCollision[i].setX(x + width/2);
 			rightCollision[i].setY(y + (boxHeight*i));
+		}
+	}
+	public void changeColor()
+	{
+		if(!redB && !yellowB && !blueB)
+		{
+			sprite.setTexture(white);
+			color = "white";
+		}
+		else if(redB && yellowB && blueB)
+		{
+			sprite.setTexture(black);
+			color = "black";
+		}
+		else if(redB && yellowB)
+		{
+			sprite.setTexture(orange);
+			color = "orange";
+		}
+		else if(redB && blueB)
+		{
+			sprite.setTexture(purple);
+			color = "purple";
+		}
+		else if(yellowB && blueB)
+		{
+			sprite.setTexture(green);
+			color = "green";
+		}
+		else if(redB)
+		{
+			sprite.setTexture(red);
+			color = "red";
+		}
+		else if(yellowB)
+		{
+			sprite.setTexture(yellow);
+			color = "yellow";
+		}
+		else if(blueB)
+		{
+			sprite.setTexture(blue);
+			color = "blue";
 		}
 	}
 }

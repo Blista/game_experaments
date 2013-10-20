@@ -23,8 +23,6 @@ public class Main implements ApplicationListener{
 	int gameProg;
 	int levelStatus;
 	
-	
-	
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.width = 900;
