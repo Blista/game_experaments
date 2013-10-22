@@ -59,7 +59,6 @@ public class Entity {
 		sprite.draw(batch);
 	}
 	
-	
 	/*
 	public Direction collision(Rectangle r){
 		if(hitbox.overlaps(r) || hitbox.contains(r)){
