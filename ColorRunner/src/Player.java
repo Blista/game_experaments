@@ -14,11 +14,12 @@ public class Player extends Entity implements InputProcessor{
 	//Sprite sprite;
 	float maxSpeed;
 	//float scaleSpeed;
-	boolean jumping, down, left, right;
+	boolean jumping, down, left, right, wallJumpingLeft, wallJumpingRight;
 	boolean redB, yellowB, blueB;
-	Vector2 grav, jump, slide;
+	Vector2 grav, jump, slide, wallJumpLeft, wallJumpRight;
 	final static int BOX4C = 21;
 	Rectangle[] botCollision, topCollision, rightCollision, leftCollision;
+	Direction direction;
 	String color = "white";
 	
 	//float scale = 1;
@@ -36,6 +37,8 @@ public class Player extends Entity implements InputProcessor{
 		grav = new Vector2(0, -5);
 		slide = new Vector2(0, 6);
 		jump = new Vector2(0, 300);
+		wallJumpLeft = new Vector2(100,250);
+		wallJumpRight= new Vector2(-100,250);
 		
 		manager = new AssetManager();
 		manager.load("res/red.png", Texture.class);
@@ -75,10 +78,6 @@ public class Player extends Entity implements InputProcessor{
 	//}
 	
 	
-	public void enableJump(){
-		jumping = false;
-	}
-	
 	public void update(float delta){
 		velocity.add(grav);
 		
@@ -116,37 +115,36 @@ public class Player extends Entity implements InputProcessor{
 	public void collision(Rectangle r, Direction dir){
 		float height = sprite.getHeight();
 		float width = sprite.getWidth();
+		float buffer = (float) 0;
 		System.out.println(dir);
 		
 		if(dir == Direction.up){
-			sprite.setPosition(sprite.getX(), r.y - height);
+			sprite.setPosition(sprite.getX(), r.y - height + buffer);
 			velocity.y = 0;
+			
 		}else if (dir == Direction.rightUp){
-			sprite.setPosition(r.x - width, r.y - height);
+			sprite.setPosition(r.x - width + buffer, r.y - height + buffer);
 			velocity.x = 0;
 			velocity.y = 0;
 		}else if (dir == Direction.right){
-			sprite.setPosition(r.x - width, sprite.getY());
+			sprite.setPosition(r.x - width + buffer, sprite.getY());
 			velocity.x = 0;
-			enableJump();
 		}else if (dir == Direction.rightDown){
-			sprite.setPosition(r.x - width, r.y + r.getHeight());
+			sprite.setPosition(r.x - width + buffer, r.y + r.getHeight()- buffer);
 			velocity.x = 0;
 			velocity.y = 0;
 		}else if (dir == Direction.down){
-			sprite.setPosition(sprite.getX(), r.y + r.getHeight());
+			sprite.setPosition(sprite.getX(), r.y + r.getHeight()-buffer);
 			velocity.y = 0;
-			enableJump();
 		}else if (dir == Direction.leftDown){
-			sprite.setPosition(r.x + r.getWidth(), r.y + r.getHeight());
+			sprite.setPosition(r.x + r.getWidth()-buffer, r.y + r.getHeight()+buffer);
 			velocity.x = 0;
 			velocity.y = 0;
 		}else if (dir == Direction.left){
-			sprite.setPosition(r.x + r.getWidth(), sprite.getY());
+			sprite.setPosition(r.x + r.getWidth()-buffer, sprite.getY());
 			velocity.x = 0;
-			enableJump();
 		}else if (dir == Direction.leftUp){
-			sprite.setPosition(r.x + r.getWidth(), r.y - height);
+			sprite.setPosition(r.x + r.getWidth()-buffer, r.y - height+buffer);
 			velocity.x = 0;
 			velocity.y = 0;
 		}
@@ -155,9 +153,23 @@ public class Player extends Entity implements InputProcessor{
 	@Override
 	public boolean keyDown(int keycode) {
 		
-		if(!jumping && (keycode == Keys.W || keycode == Keys.SPACE)){
-			velocity.add(jump);
+		if((keycode == Keys.W || keycode == Keys.SPACE)){
+			if(!jumping){
+				velocity.add(jump);
+			}
+			else if (!wallJumpingLeft)
+			{
+				//velocity.x = 0;
+				velocity.add(wallJumpLeft);
+			}
+			else if(!wallJumpingRight)
+			{
+				//velocity.x = 0;
+				velocity.add(wallJumpRight);
+			}
 			jumping = true;
+			wallJumpingLeft = true;
+			wallJumpingRight = true;
 			return true;
 		}
 		if(keycode == Keys.A){
@@ -323,6 +335,7 @@ public class Player extends Entity implements InputProcessor{
 		
 		else if(right > top && right > bot)
 		{
+			direction = Direction.right;
 			return Direction.right;
 		}
 		else if(right > top && right == bot)
@@ -334,9 +347,9 @@ public class Player extends Entity implements InputProcessor{
 			return Direction.rightUp;
 		}
 		
-		
 		else if(left > top && left > bot)
 		{
+			direction = Direction.left;
 			return Direction.left;
 		}
 		else if(left > top && left == bot)
@@ -415,6 +428,25 @@ public class Player extends Entity implements InputProcessor{
 		{
 			sprite.setTexture(blue);
 			color = "blue";
+		}
+	}
+	public void canJump(Direction dir)
+	{
+		jumping = true;
+		wallJumpingLeft = true;
+		wallJumpingRight = true;
+		
+		if(dir == Direction.down)
+		{
+			jumping = false;
+		}
+		else if(dir == Direction.left)
+		{
+			wallJumpingLeft = false;
+		}
+		else if(dir == Direction.right)
+		{
+			wallJumpingRight = false;
 		}
 	}
 }

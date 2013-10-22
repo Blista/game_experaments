@@ -25,7 +25,6 @@ public class Level {
 	public void makeWall(String tex, float x, float y, float width, float height){
 		Entity wall = new Entity(tex, (float)x, (float)y, (float)width, (float)height);
 		walls.add(wall);
-		
 	}	
 	
 	
@@ -43,12 +42,22 @@ public class Level {
 	}
 	
 	public int update(float delta){
+		Direction dir, bestDir;
+		bestDir = Direction.still;
 		
 		for(Entity w : walls){
 			player.update(delta);
 			w.update(delta);
 			//player.alignDirection(w.hitbox);
-			player.collision(w.hitbox, player.alignDirection(w.hitbox));
+			dir = player.alignDirection(w.hitbox);
+			player.collision(w.hitbox, dir);
+			
+			if(bestDir != Direction.down){
+				if(dir == Direction.down || (bestDir != Direction.left && bestDir != Direction.right)){
+					player.canJump(dir);
+					bestDir = dir;
+				}
+			}
 		}
 		
 		
@@ -61,5 +70,4 @@ public class Level {
 		}
 		player.render(batch);
 	}
-	
 }
