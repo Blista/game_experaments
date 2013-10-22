@@ -2,9 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/workspace/ColorRunner/lib/gdx.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/workspace/ColorRunner/lib/gdx-backend-lwjgl.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/workspace/ColorRunner/lib/gdx-backend-lwjgl-natives.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/workspace/ColorRunner/lib/gdx-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chris Erb/Desktop/lib/gdx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chris Erb/Desktop/lib/gdx-backend-lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chris Erb/Desktop/lib/gdx-backend-lwjgl-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chris Erb/Desktop/lib/gdx-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chris Erb/Desktop/lib/gdx-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chris Erb/Desktop/lib/slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

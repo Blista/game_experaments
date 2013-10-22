@@ -2,10 +2,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+
+
 
 
 public class Player extends Entity implements InputProcessor{
@@ -78,6 +78,9 @@ public class Player extends Entity implements InputProcessor{
 		if(right && velocity.x <= 0){
 			//velocity = new Vector2(maxSpeed, (float)0);
 			velocity.add(200, 0);
+		}
+		if(velocity.y < -300){
+			velocity.y = -300;
 		}
 		
 		

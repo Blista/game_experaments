@@ -96,8 +96,8 @@ public class Main implements ApplicationListener{
 		
 		lev.makeWall("res/bullet.png", 200, 400, 100, 50);
 		
-		lev.makeWall("res/bullet.png", 800, 200, 20, 600);
-		
+		//lev.makeWall("res/bullet.png", 800, 200, 20, 600);
+		lev.addTexString("res/bullet.png");
 		
 		lev.setStartPos(100, 500);
 		return lev;
