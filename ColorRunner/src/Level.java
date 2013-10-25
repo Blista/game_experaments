@@ -61,20 +61,34 @@ public class Level {
 	}
 	
 	public int update(float delta){
+		Direction dir, bestDir;
+		bestDir = Direction.still;
 		long time = System.currentTimeMillis();
 		
-		if(time - lastTime > 200000/levelSpeed){
+		player.update(delta);
+		
+		if(time - lastTime > 150000/levelSpeed){
 			lastTime = time;
 			wallGen();
 		}
 		
+		//player.velocity.x = -levelSpeed;
+		
 		for(Entity w : walls){
 			w.velocity.x = -levelSpeed;
 			w.sprite.translate(w.velocity.x * delta, w.velocity.y * delta);
-			player.update(delta);
+			player.update(0);
 			w.update(delta);
 			//player.alignDirection(w.hitbox);
-			player.collision(w.hitbox, player.alignDirection(w.hitbox));
+			dir = player.alignDirection(w.hitbox);
+			player.collision(w.hitbox, dir);
+			
+			if(bestDir != Direction.down){
+				if(dir == Direction.down || (bestDir != Direction.left && bestDir != Direction.right)){
+					player.canJump(dir);
+					bestDir = dir;
+				}
+			}
 			
 			if(w.hitbox.x + w.hitbox.width < 0){
 				toRemove.add(w);
@@ -90,8 +104,6 @@ public class Level {
 			walls.add(i.next());
 			i.remove();
 		}
-		
-		
 		
 		return 0;
 	}

@@ -29,7 +29,7 @@ public class Main implements ApplicationListener{
 		cfg.height = 700;
 		cfg.fullscreen = false;
 		cfg.useGL20 = true;
-		cfg.title = "Coole Title";
+		cfg.title = "Color Runner";
 		
 		new LwjglApplication(new Main(), cfg);
 		
@@ -93,12 +93,10 @@ public class Main implements ApplicationListener{
 		lev.makeWall("res/bullet.png", 100, 300, 80, 10);
 		
 		lev.makeWall("res/bullet.png", 200, 400, 100, 50);
-		
+	 
 
 		//lev.makeWall("res/bullet.png", 800, 200, 20, 600);
 		lev.addTexString("res/bullet.png");
-
-		lev.makeWall("res/bullet.png", 800, 200, 20, 600);
 		
 		lev.setStartPos(100, 500);
 		return lev;
