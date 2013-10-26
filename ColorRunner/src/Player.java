@@ -1,9 +1,7 @@
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -13,9 +11,10 @@ public class Player extends Entity implements InputProcessor{
 	static Texture playerTex, red, yellow, blue, orange, purple, green, black, white;
 	//Sprite sprite;
 	float maxSpeed;
+	long timer;
 	//float scaleSpeed;
 	boolean jumping, down, left, right, wallJumpingLeft, wallJumpingRight;
-	boolean redB, yellowB, blueB;
+	boolean redB, yellowB, blueB, acceleration;
 	Vector2 grav, jump, slide, wallJumpLeft, wallJumpRight;
 	final static int BOX4C = 21;
 	Rectangle[] botCollision, topCollision, rightCollision, leftCollision;
@@ -29,16 +28,18 @@ public class Player extends Entity implements InputProcessor{
 		super(imgLoc, x, y, width, height);
 		//sprite.setScale((float)1);
 		//scale = 1;
+		timer = 0;
 		jumping = false;
 		down = false;
 		left = false;
 		right = false;
+		acceleration = true;
 		maxSpeed = 400f;
 		grav = new Vector2(0, -5);
 		slide = new Vector2(0, 6);
 		jump = new Vector2(0, 300);
-		wallJumpLeft = new Vector2(100,250);
-		wallJumpRight= new Vector2(-100,250);
+		wallJumpLeft = new Vector2(150,300);
+		wallJumpRight= new Vector2(-150,300);
 		
 		manager = new AssetManager();
 		manager.load("res/red.png", Texture.class);
@@ -87,13 +88,17 @@ public class Player extends Entity implements InputProcessor{
 			velocity.add(0, -maxSpeed);
 		}
 		*/
-		if(left && velocity.x >= 0){
-			//velocity = new Vector2(-maxSpeed, (float)0);
-			velocity.add(-200, 0);
-		}
-		if(right && velocity.x <= 0){
-			//velocity = new Vector2(maxSpeed, (float)0);
-			velocity.add(200, 0);
+		delayMovement(timer);
+		if(System.currentTimeMillis() - timer >= 100)
+		{
+			if(left && velocity.x >= 0){
+				//velocity = new Vector2(-maxSpeed, (float)0);
+				velocity.add(-200, 0);
+			}
+			if(right && velocity.x <= 0){
+				//velocity = new Vector2(maxSpeed, (float)0);
+				velocity.add(200, 0);
+			}
 		}
 		
 		
@@ -160,12 +165,20 @@ public class Player extends Entity implements InputProcessor{
 			else if (!wallJumpingLeft)
 			{
 				//velocity.x = 0;
-				velocity.add(wallJumpLeft);
+				//velocity.add(wallJumpLeft);
+				velocity.x = wallJumpLeft.x;
+				velocity.y = wallJumpLeft.y;
+				acceleration = false;
+				timer = System.currentTimeMillis();
 			}
 			else if(!wallJumpingRight)
 			{
 				//velocity.x = 0;
-				velocity.add(wallJumpRight);
+				//velocity.add(wallJumpRight);
+				velocity.x = wallJumpRight.x;
+				velocity.y = wallJumpRight.y;
+				acceleration = false;
+				timer = System.currentTimeMillis();
 			}
 			jumping = true;
 			wallJumpingLeft = true;
@@ -448,5 +461,10 @@ public class Player extends Entity implements InputProcessor{
 		{
 			wallJumpingRight = false;
 		}
+	}
+	public void delayMovement(float timer)
+	{
+		if(System.currentTimeMillis() - timer >= 100)
+			acceleration = true;
 	}
 }
