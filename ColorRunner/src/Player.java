@@ -13,11 +13,10 @@ public class Player extends Entity implements InputProcessor{
 	static Texture playerTex, red, yellow, blue, orange, purple, green, black, white;
 	//Sprite sprite;
 	float maxSpeed, horizAccel;
-	float horizDisableStart;
-	boolean horizDisable;
+	long timer;
 	//float scaleSpeed;
 	boolean canJump, down, left, right, canWallJumpLeft, canWallJumpRight;
-	boolean redB, yellowB, blueB;
+	boolean redB, yellowB, blueB, acceleration;
 	Vector2 grav, jump, slide, wallJumpLeft, wallJumpRight;
 	final static int BOX4C = 21;
 	Rectangle[] botCollision, topCollision, rightCollision, leftCollision;
@@ -31,9 +30,12 @@ public class Player extends Entity implements InputProcessor{
 		//sprite.setScale((float)1);
 		//scale = 1;
 		canJump = false;
+		timer = 0;
 		down = false;
 		left = false;
 		right = false;
+		acceleration = true;
+
 		maxSpeed = 200;
 		horizAccel = 1000;
 		grav = new Vector2(0, -980);
@@ -89,36 +91,36 @@ public class Player extends Entity implements InputProcessor{
 			velocity.add(0, -maxSpeed);
 		}
 		*/
-		if(left && velocity.x > -maxSpeed){
-			//velocity = new Vector2(-maxSpeed, (float)0);
-			velocity.add(-horizAccel*delta, 0);
-		}else if(!left && velocity.x < 0){
-			velocity.add(horizAccel*delta, 0);
-			if(velocity.x > 0){
-				velocity.x = 0;
+		delayMovement(timer);
+		if(System.currentTimeMillis() - timer >= 100)
+		{
+			if(left && velocity.x > -maxSpeed){
+				//velocity = new Vector2(-maxSpeed, (float)0);
+				velocity.add(-horizAccel*delta, 0);
+			}else if(!left && velocity.x < 0){
+				velocity.add(horizAccel*delta, 0);
+				if(velocity.x > 0){
+					velocity.x = 0;
+				}
+			}else if(velocity.x < -maxSpeed){
+				velocity.x = -maxSpeed;
 			}
-		}else if(velocity.x < -maxSpeed){
-			velocity.x = -maxSpeed;
-		}
-		
-		
-		if(right && velocity.x < maxSpeed){
-			//velocity = new Vector2(maxSpeed, (float)0);
-			velocity.add(horizAccel*delta, 0);
-		}else if(!right && velocity.x > 0){
-			velocity.add(-horizAccel*delta, 0);
-			if(velocity.x < 0){
-				velocity.x = 0;
+			if(right && velocity.x < maxSpeed){
+				//velocity = new Vector2(maxSpeed, (float)0);
+				velocity.add(horizAccel*delta, 0);
+			}else if(!right && velocity.x > 0){
+				velocity.add(-horizAccel*delta, 0);
+				if(velocity.x < 0){
+					velocity.x = 0;
+				}
+			}else if(velocity.x > maxSpeed){
+				velocity.x = maxSpeed;
+			}		
+			
+			if(velocity.y < -800){
+				velocity.y = -800;
 			}
-		}else if(velocity.x > maxSpeed){
-			velocity.x = maxSpeed;
-		}		
-		
-		
-		if(velocity.y < -800){
-			velocity.y = -800;
 		}
-		
 		
 		//if(velocity.len() > maxSpeed){
 		//	velocity.nor().mul(maxSpeed);
@@ -181,17 +183,17 @@ public class Player extends Entity implements InputProcessor{
 			}
 			else if (canWallJumpLeft)
 			{
-				//velocity.x = 0;
-				velocity.add(wallJumpLeft);
-				horizDisableStart = System.currentTimeMillis();
-				horizDisable = true;
+				velocity.x = wallJumpLeft.x;
+				velocity.y = wallJumpLeft.y;
+				acceleration = false;
+				timer = System.currentTimeMillis();
 			}
 			else if(canWallJumpRight)
 			{
-				//velocity.x = 0;
-				velocity.add(wallJumpRight);
-				horizDisableStart = System.currentTimeMillis();
-				horizDisable = true;
+				velocity.x = wallJumpRight.x;
+				velocity.y = wallJumpRight.y;
+				acceleration = false;
+				timer = System.currentTimeMillis();
 			}
 			canJump = false;
 			canWallJumpLeft = false;
@@ -472,5 +474,11 @@ public class Player extends Entity implements InputProcessor{
 		{
 			canWallJumpRight = true;
 		}
+	}
+
+	public void delayMovement(float timer)
+	{
+		if(System.currentTimeMillis() - timer >= 100)
+			acceleration = true;
 	}
 }
