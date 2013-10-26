@@ -1,9 +1,13 @@
 import java.util.LinkedList;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -25,7 +29,7 @@ public class Main implements ApplicationListener{
 		cfg.height = 700;
 		cfg.fullscreen = false;
 		cfg.useGL20 = true;
-		cfg.title = "Coole Title";
+		cfg.title = "Color Runner";
 		
 		new LwjglApplication(new Main(), cfg);
 		
@@ -89,8 +93,10 @@ public class Main implements ApplicationListener{
 		lev.makeWall("res/bullet.png", 100, 300, 80, 10);
 		
 		lev.makeWall("res/bullet.png", 200, 400, 100, 50);
-		
-		lev.makeWall("res/bullet.png", 800, 200, 20, 600);
+	 
+
+		//lev.makeWall("res/bullet.png", 800, 200, 20, 600);
+		lev.addTexString("res/bullet.png");
 		
 		lev.setStartPos(100, 500);
 		return lev;

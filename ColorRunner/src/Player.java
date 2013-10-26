@@ -1,24 +1,25 @@
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 
+
+
 public class Player extends Entity implements InputProcessor{
 	AssetManager manager;
 	static Texture playerTex, red, yellow, blue, orange, purple, green, black, white;
 	//Sprite sprite;
-	float maxSpeed;
+	float maxSpeed, horizAccel;
 	long timer;
 	//float scaleSpeed;
-	boolean jumping, down, left, right, wallJumpingLeft, wallJumpingRight;
+	boolean canJump, down, left, right, canWallJumpLeft, canWallJumpRight;
 	boolean redB, yellowB, blueB, acceleration;
 	Vector2 grav, jump, slide, wallJumpLeft, wallJumpRight;
 	final static int BOX4C = 21;
 	Rectangle[] botCollision, topCollision, rightCollision, leftCollision;
-	Direction direction;
 	String color = "white";
 	
 	//float scale = 1;
@@ -28,18 +29,20 @@ public class Player extends Entity implements InputProcessor{
 		super(imgLoc, x, y, width, height);
 		//sprite.setScale((float)1);
 		//scale = 1;
+		canJump = false;
 		timer = 0;
-		jumping = false;
 		down = false;
 		left = false;
 		right = false;
 		acceleration = true;
-		maxSpeed = 400f;
-		grav = new Vector2(0, -5);
+
+		maxSpeed = 200;
+		horizAccel = 1000;
+		grav = new Vector2(0, -980);
 		slide = new Vector2(0, 6);
-		jump = new Vector2(0, 300);
-		wallJumpLeft = new Vector2(150,300);
-		wallJumpRight= new Vector2(-150,300);
+		jump = new Vector2(0, 500);
+		wallJumpLeft = new Vector2(200,500);
+		wallJumpRight= new Vector2(-200,500);
 		
 		manager = new AssetManager();
 		manager.load("res/red.png", Texture.class);
@@ -80,7 +83,7 @@ public class Player extends Entity implements InputProcessor{
 	
 	
 	public void update(float delta){
-		velocity.add(grav);
+		velocity.add(grav.x *delta, grav.y * delta);
 		
 		/*
 		if(down && velocity.y >= 0){
@@ -91,16 +94,33 @@ public class Player extends Entity implements InputProcessor{
 		delayMovement(timer);
 		if(System.currentTimeMillis() - timer >= 100)
 		{
-			if(left && velocity.x >= 0){
+			if(left && velocity.x > -maxSpeed){
 				//velocity = new Vector2(-maxSpeed, (float)0);
-				velocity.add(-200, 0);
+				velocity.add(-horizAccel*delta, 0);
+			}else if(!left && velocity.x < 0){
+				velocity.add(horizAccel*delta, 0);
+				if(velocity.x > 0){
+					velocity.x = 0;
+				}
+			}else if(velocity.x < -maxSpeed){
+				velocity.x = -maxSpeed;
 			}
-			if(right && velocity.x <= 0){
+			if(right && velocity.x < maxSpeed){
 				//velocity = new Vector2(maxSpeed, (float)0);
-				velocity.add(200, 0);
+				velocity.add(horizAccel*delta, 0);
+			}else if(!right && velocity.x > 0){
+				velocity.add(-horizAccel*delta, 0);
+				if(velocity.x < 0){
+					velocity.x = 0;
+				}
+			}else if(velocity.x > maxSpeed){
+				velocity.x = maxSpeed;
+			}		
+			
+			if(velocity.y < -800){
+				velocity.y = -800;
 			}
 		}
-		
 		
 		//if(velocity.len() > maxSpeed){
 		//	velocity.nor().mul(maxSpeed);
@@ -126,31 +146,30 @@ public class Player extends Entity implements InputProcessor{
 		if(dir == Direction.up){
 			sprite.setPosition(sprite.getX(), r.y - height + buffer);
 			velocity.y = 0;
-			
 		}else if (dir == Direction.rightUp){
 			sprite.setPosition(r.x - width + buffer, r.y - height + buffer);
-			velocity.x = 0;
+//			velocity.x = 0;
 			velocity.y = 0;
 		}else if (dir == Direction.right){
 			sprite.setPosition(r.x - width + buffer, sprite.getY());
-			velocity.x = 0;
+//			velocity.x = 0;
 		}else if (dir == Direction.rightDown){
 			sprite.setPosition(r.x - width + buffer, r.y + r.getHeight()- buffer);
-			velocity.x = 0;
+//			velocity.x = 0;
 			velocity.y = 0;
 		}else if (dir == Direction.down){
 			sprite.setPosition(sprite.getX(), r.y + r.getHeight()-buffer);
 			velocity.y = 0;
 		}else if (dir == Direction.leftDown){
 			sprite.setPosition(r.x + r.getWidth()-buffer, r.y + r.getHeight()+buffer);
-			velocity.x = 0;
+//			velocity.x = 0;
 			velocity.y = 0;
 		}else if (dir == Direction.left){
 			sprite.setPosition(r.x + r.getWidth()-buffer, sprite.getY());
-			velocity.x = 0;
+//			velocity.x = 0;
 		}else if (dir == Direction.leftUp){
 			sprite.setPosition(r.x + r.getWidth()-buffer, r.y - height+buffer);
-			velocity.x = 0;
+//			velocity.x = 0;
 			velocity.y = 0;
 		}
 	}
@@ -159,30 +178,26 @@ public class Player extends Entity implements InputProcessor{
 	public boolean keyDown(int keycode) {
 		
 		if((keycode == Keys.W || keycode == Keys.SPACE)){
-			if(!jumping){
+			if(canJump){
 				velocity.add(jump);
 			}
-			else if (!wallJumpingLeft)
+			else if (canWallJumpLeft)
 			{
-				//velocity.x = 0;
-				//velocity.add(wallJumpLeft);
 				velocity.x = wallJumpLeft.x;
 				velocity.y = wallJumpLeft.y;
 				acceleration = false;
 				timer = System.currentTimeMillis();
 			}
-			else if(!wallJumpingRight)
+			else if(canWallJumpRight)
 			{
-				//velocity.x = 0;
-				//velocity.add(wallJumpRight);
 				velocity.x = wallJumpRight.x;
 				velocity.y = wallJumpRight.y;
 				acceleration = false;
 				timer = System.currentTimeMillis();
 			}
-			jumping = true;
-			wallJumpingLeft = true;
-			wallJumpingRight = true;
+			canJump = false;
+			canWallJumpLeft = false;
+			canWallJumpRight = false;
 			return true;
 		}
 		if(keycode == Keys.A){
@@ -200,14 +215,17 @@ public class Player extends Entity implements InputProcessor{
 		if(keycode == Keys.I)
 		{
 			redB = true;
+			return true;
 		}
 		if(keycode == Keys.O)
 		{
 			yellowB = true; 
+			return true;
 		}
 		if(keycode == Keys.P)
 		{
 			blueB = true;
+			return true;
 		}
 		return false;
 	}
@@ -222,33 +240,30 @@ public class Player extends Entity implements InputProcessor{
 	public boolean keyUp(int keycode) {
 		if(keycode == Keys.A){
 			left = false;
-			velocity.x = 0;
-			//velocity.sub((float)Math.cos(velocity.angle())*maxSpeed, (float)0);
 			return true;
 		}
 		if(keycode == Keys.S){
 			down = false;
-			//velocity.mul((float)0);
-			//velocity.sub((float)0, (float)Math.sin(velocity.angle())*maxSpeed);
 			return true;
 		}
 		if(keycode == Keys.D){
 			right = false;
-			velocity.x = 0;
-			//velocity.sub((float)Math.cos(velocity.angle())*maxSpeed, (float)0);
 			return true;
 		}
 		if(keycode == Keys.I)
 		{
 			redB = false;
+			return true;
 		}
 		if(keycode == Keys.O)
 		{
 			yellowB = false; 
+			return true;
 		}
 		if(keycode == Keys.P)
 		{
 			blueB = false;
+			return true;
 		}
 		return false;
 	}
@@ -348,7 +363,6 @@ public class Player extends Entity implements InputProcessor{
 		
 		else if(right > top && right > bot)
 		{
-			direction = Direction.right;
 			return Direction.right;
 		}
 		else if(right > top && right == bot)
@@ -362,7 +376,6 @@ public class Player extends Entity implements InputProcessor{
 		
 		else if(left > top && left > bot)
 		{
-			direction = Direction.left;
 			return Direction.left;
 		}
 		else if(left > top && left == bot)
@@ -445,23 +458,24 @@ public class Player extends Entity implements InputProcessor{
 	}
 	public void canJump(Direction dir)
 	{
-		jumping = true;
-		wallJumpingLeft = true;
-		wallJumpingRight = true;
+		canJump = false;
+		canWallJumpLeft = false;
+		canWallJumpRight = false;
 		
 		if(dir == Direction.down)
 		{
-			jumping = false;
+			canJump = true;
 		}
 		else if(dir == Direction.left)
 		{
-			wallJumpingLeft = false;
+			canWallJumpLeft = true;
 		}
 		else if(dir == Direction.right)
 		{
-			wallJumpingRight = false;
+			canWallJumpRight = true;
 		}
 	}
+
 	public void delayMovement(float timer)
 	{
 		if(System.currentTimeMillis() - timer >= 100)
