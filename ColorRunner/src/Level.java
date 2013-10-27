@@ -9,12 +9,11 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Level {
 	
+	WallGenerator gen;
 	LinkedList<Entity> walls, toAdd, toRemove;
-	LinkedList<String> textures;
 	Player player;
 	float startX, startY;
 	float levelSpeed;
-	Random rand;
 	Rectangle viewport;
 	long lastTime;
 	
@@ -23,10 +22,11 @@ public class Level {
 		walls = new LinkedList<Entity>();
 		toAdd = new LinkedList<Entity>();
 		toRemove = new LinkedList<Entity>();
-		textures = new LinkedList<String>();
 		levelSpeed = 100;
 		this.viewport = viewport;
 		lastTime = System.currentTimeMillis();
+		
+		gen = new WallGenerator(this);
 	}
 	
 	public void makeWall(String tex, float x, float y, float width, float height){
@@ -35,17 +35,11 @@ public class Level {
 		
 	}	
 	
-	public void addTexString(String tex){
-		textures.add(tex);
-	}
-	
-	public void wallGen(){
-		rand = new Random();
-		String[] texts = textures.toArray(new String[0]);
-		int texlen = texts.length;
+	public void makeWall(String tex, Rectangle r){
+		Entity wall = new Entity(tex, r.x, r.y, r.width, r.height);
+		toAdd.add(wall);
 		
-		makeWall(texts[0], viewport.x+viewport.width, rand.nextFloat()*200, 100, 10);
-	}
+	}	
 	
 	public void setStartPos(float x, float y){
 		startX = x;
@@ -63,16 +57,11 @@ public class Level {
 	public int update(float delta){
 		Direction dir, bestDir;
 		bestDir = Direction.still;
-		long time = System.currentTimeMillis();
 		
 		player.update(delta);
-		
-		if(time - lastTime > 150000/levelSpeed){
-			lastTime = time;
-			wallGen();
-		}
-		
-		//player.velocity.x = -levelSpeed;
+				
+		gen.wallGen();
+	
 		
 		for(Entity w : walls){
 			w.velocity.x = -levelSpeed;
@@ -81,7 +70,7 @@ public class Level {
 			w.update(delta);
 			//player.alignDirection(w.hitbox);
 			dir = player.alignDirection(w.hitbox);
-			player.collision(w.hitbox, dir);
+			player.collision(w, dir);
 			
 			if(bestDir != Direction.down){
 				if(dir == Direction.down || (bestDir != Direction.left && bestDir != Direction.right)){
@@ -89,8 +78,8 @@ public class Level {
 					bestDir = dir;
 				}
 			}
-			
-			if(w.hitbox.x + w.hitbox.width < 0){
+
+			if(!viewport.contains(w.hitbox) && !viewport.overlaps(w.hitbox)){
 				toRemove.add(w);
 			}
 		}
