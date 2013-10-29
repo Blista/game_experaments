@@ -1,7 +1,10 @@
+
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -14,9 +17,11 @@ public class Level {
 	Player player;
 	float startX, startY;
 	float levelSpeed;
-	Random rand;
+	Random rand, rand2;
 	Rectangle viewport;
 	long lastTime;
+	float lastWallHeight;
+	boolean gameOver = false;
 	
 	protected Level(Player player, Rectangle viewport){
 		this.player = player;
@@ -42,10 +47,11 @@ public class Level {
 	public void wallGen(){
 		rand = new Random();
 		String[] texts = textures.toArray(new String[0]);
-		int texlen = texts.length;
+		//int texlen = texts.length;
 		
 		makeWall(texts[0], viewport.x+viewport.width, rand.nextFloat()*200, 100, 10);
 	}
+	
 	
 	public void setStartPos(float x, float y){
 		startX = x;
@@ -72,10 +78,8 @@ public class Level {
 			wallGen();
 		}
 		
-		//player.velocity.x = -levelSpeed;
-		
 		for(Entity w : walls){
-			//w.velocity.x = -levelSpeed;
+			w.velocity.x = -levelSpeed;
 			w.sprite.translate(w.velocity.x * delta, w.velocity.y * delta);
 			player.update(0);
 			w.update(delta);
@@ -113,6 +117,12 @@ public class Level {
 			w.render(batch);
 		}
 		player.render(batch);
+	}
+	public boolean gameOver()
+	{
+		if(player.sprite.getX() < 0 || player.sprite.getY() < -20)
+			gameOver = true;
+		return gameOver;
 	}
 	
 }

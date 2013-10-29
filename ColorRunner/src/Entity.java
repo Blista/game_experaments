@@ -1,3 +1,4 @@
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -13,6 +14,7 @@ public class Entity {
 	//float scale = 1;
 	//Circle hitbox;
 	Rectangle hitbox;
+	String color = "";
 	
 	protected Entity(String imgLoc, float x, float y, float width, float height) {
 		manager = new AssetManager();
@@ -36,6 +38,8 @@ public class Entity {
 		//hitbox.setY(y);
 		hitbox.setWidth(width);//sprite.getWidth()*sprite.getScaleX());
 		hitbox.setHeight(height);//sprite.getHeight()*sprite.getScaleY());
+		
+		color = "white";
 	}
 	
 	
@@ -57,77 +61,4 @@ public class Entity {
 		sprite.draw(batch);
 	}
 	
-	/*
-	public Direction collision(Rectangle r){
-		if(hitbox.overlaps(r) || hitbox.contains(r)){
-			if(velocity.x < 0 && hitbox.x - r.x >= 0 && hitbox.x - r.x <= r.width){
-				if(velocity.y < 0 && hitbox.y - r.y >= 0 && hitbox.y - r.y <= r.height){
-					return Direction.leftDown;
-				}
-				if(velocity.y > 0 && r.y - hitbox.y >= 0 && r.y - hitbox.y <= hitbox.height){
-					return Direction.leftUp;
-				}
-				return Direction.left;
-			}
-			if(velocity.x > 0 && r.x - hitbox.x >= 0 && r.x - hitbox.x <= hitbox.width){
-				if(velocity.y < 0 && hitbox.y - r.y >= 0 && hitbox.y - r.y <= r.height){
-					return Direction.rightDown;
-				}
-				if(velocity.y > 0 && r.y - hitbox.y >= 0 && r.y - hitbox.y <= hitbox.height){
-					return Direction.rightUp;
-				}
-				return Direction.right;
-			}
-			if(velocity.y < 0 && hitbox.y - r.y >= 0 && hitbox.y - r.y <= r.height){
-				return Direction.down;
-			}
-			if(velocity.y > 0 && r.y - hitbox.y >= 0 && r.y - hitbox.y <= hitbox.height){
-				return Direction.up;
-			}
-			
-		}
-		return Direction.still;
-	}
-	*/
-	/*
-	public void collX(float x){
-		if(left && hitbox.x+hitbox.width - x >= 0 && hitbox.x - x <= 0){
-			left = false;
-			sprite.setPosition(sprite.getX()+2, sprite.getY());
-			velocity.mul((float)0);
-		}
-		if(right && x - hitbox.x >= 0 && x - hitbox.x <= hitbox.width){
-			right = false;
-			sprite.setPosition(sprite.getX()-2, sprite.getY());
-			velocity.mul((float)0);
-		}
-		
-		//if(hitbox.x - x > 0 && hitbox.x - x < hitbox.radius){
-		//	left = false;
-		//}
-		//if(x - hitbox.x > 0 && x - hitbox.x < hitbox.radius){
-		//	right = false;
-		//}		
-	}
-	
-	public void collY(float y){
-		if(down && hitbox.y+hitbox.height/2 - y > 0 && hitbox.y - y <= 0){
-			down = false;
-			sprite.setPosition(sprite.getX(), sprite.getY()+2);
-			velocity.mul((float)0);
-		}
-		if(up && y - hitbox.y >= 0 && y - hitbox.y <= hitbox.height){
-			up = false;
-			sprite.setPosition(sprite.getX(), sprite.getY()-2);
-			velocity.mul((float)0);
-		}
-		
-		//if(hitbox.y - y > 0 && hitbox.y - y < hitbox.radius){
-		//	down = false;
-		//}
-		//if(y - hitbox.y > 0 && y - hitbox.y < hitbox.radius){
-		//	up = false;
-		//}
-	}	
-	*/
 }

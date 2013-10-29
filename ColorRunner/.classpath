@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="C:/Users/Andrew/workspace/ColorRunner/lib/gdx-backend-lwjgl.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Andrew/workspace/ColorRunner/lib/gdx-backend-lwjgl-natives.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Andrew/workspace/ColorRunner/lib/gdx-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/workspace/ColorRunner/lib/tween-engine-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

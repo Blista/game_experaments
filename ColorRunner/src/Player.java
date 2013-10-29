@@ -1,5 +1,6 @@
-import com.badlogic.gdx.Input.Keys;
+
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -15,12 +16,12 @@ public class Player extends Entity implements InputProcessor{
 	float maxSpeed, horizAccel;
 	long timer;
 	//float scaleSpeed;
-	boolean canJump, down, left, right, canWallJumpLeft, canWallJumpRight;
+	boolean canJump, down, left, right, canWallJumpLeft, canWallJumpRight, gameOver;
 	boolean redB, yellowB, blueB, acceleration;
 	Vector2 grav, jump, slide, wallJumpLeft, wallJumpRight;
 	final static int BOX4C = 21;
 	Rectangle[] botCollision, topCollision, rightCollision, leftCollision;
-	String color = "white";
+	//String color = "white";
 	
 	//float scale = 1;
 	
@@ -35,6 +36,7 @@ public class Player extends Entity implements InputProcessor{
 		left = false;
 		right = false;
 		acceleration = true;
+		gameOver = false;
 
 		maxSpeed = 200;
 		horizAccel = 1000;
@@ -65,14 +67,6 @@ public class Player extends Entity implements InputProcessor{
 		white = manager.get("res/CharacterImage.png", Texture.class);
 		
 		
-		/*Sprite redSprite = new Sprite(manager.get("res/red.png", Texture.class));
-		Sprite yellowSprite = new Sprite(manager.get("res/yellow.png", Texture.class));
-		Sprite blueSprite = new Sprite(manager.get("res/blue.png", Texture.class));
-		Sprite orangeSprite = new Sprite(manager.get("res/orange.png", Texture.class));
-		Sprite purpleSprite = new Sprite(manager.get("res/purple.png", Texture.class));
-		Sprite greenSprite = new Sprite(manager.get("res/green.png", Texture.class));
-		Sprite blackSprite = new Sprite(manager.get("res/black.png", Texture.class));*/
-		
 		initCollBoxes(x,y,width,height);		
 	}
 	
@@ -91,7 +85,6 @@ public class Player extends Entity implements InputProcessor{
 			velocity.add(0, -maxSpeed);
 		}
 		*/
-		delayMovement(timer);
 		if(System.currentTimeMillis() - timer >= 100)
 		{
 			if(left && velocity.x > -maxSpeed){
@@ -265,37 +258,6 @@ public class Player extends Entity implements InputProcessor{
 			blueB = false;
 			return true;
 		}
-		return false;
-	}
-	
-	@Override
-	public boolean mouseMoved(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
-		
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	public void initCollBoxes(float x,float y, float width, float height)
@@ -475,10 +437,44 @@ public class Player extends Entity implements InputProcessor{
 			canWallJumpRight = true;
 		}
 	}
-
-	public void delayMovement(float timer)
+	public boolean getLeft()
 	{
-		if(System.currentTimeMillis() - timer >= 100)
-			acceleration = true;
+		return left;
 	}
+	public boolean getRight()
+	{
+		return right;
+	}
+
+	@Override
+	public boolean mouseMoved(int arg0, int arg1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
+		// TODO Auto-generated method stub
+		
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int arg0, int arg1, int arg2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }
