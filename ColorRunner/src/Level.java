@@ -2,10 +2,11 @@
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Random;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -13,25 +14,29 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Level {
 	
+	AssetManager manager;
+	Music bgm;
+	WallGenerator gen;
 	LinkedList<Entity> walls, toAdd, toRemove;
-	LinkedList<String> textures;
 	Player player;
 	float startX, startY;
 	float levelSpeed;
-	Random rand, rand2;
 	Rectangle viewport;
-	long lastTime;
-	float lastWallHeight;
 	
 	protected Level(Player player, Rectangle viewport){
 		this.player = player;
 		walls = new LinkedList<Entity>();
 		toAdd = new LinkedList<Entity>();
 		toRemove = new LinkedList<Entity>();
-		textures = new LinkedList<String>();
 		levelSpeed = 100;
 		this.viewport = viewport;
-		lastTime = System.currentTimeMillis();
+		gen = new WallGenerator(this);
+		manager = new AssetManager();
+		manager.load("res/livingTooLong.mp3", Music.class);
+		manager.finishLoading();
+		bgm = manager.get("res/livingTooLong.mp3", Music.class);
+		bgm.play();
+		bgm.setLooping(true);
 	}
 	
 	public void makeWall(String tex, float x, float y, float width, float height, String color){
@@ -39,20 +44,12 @@ public class Level {
 		toAdd.add(wall);
 		
 	}	
-	
-	public void addTexString(String tex){
-		textures.add(tex);
-	}
-	
-	public void wallGen(){
-		rand = new Random();
-		String[] texts = textures.toArray(new String[0]);
-		//int texlen = texts.length;
 		
-		makeWall(texts[0], viewport.x+viewport.width, rand.nextFloat()*200, 100, 10, "white");
+	
+	public void makeWall(String tex, Rectangle r, String color){
+		Entity wall = new Entity(tex, r.x, r.y, r.width, r.height, color);
+		toAdd.add(wall);
 	}
-	
-	
 	public void setStartPos(float x, float y){
 		startX = x;
 		startY = y;
@@ -69,13 +66,10 @@ public class Level {
 	public int update(float delta){
 		Direction dir, bestDir;
 		bestDir = Direction.still;
-		long time = System.currentTimeMillis();
 		
 		player.update(delta);
-		if(time - lastTime > 150000/levelSpeed){
-			lastTime = time;
-			wallGen();
-		}
+		gen.wallGen();
+
 		
 		for(Entity w : walls){
 			w.velocity.x = -levelSpeed;
@@ -89,12 +83,12 @@ public class Level {
 			{
 				if(player.getColor().equals("white"))
 				{
-					player.collision(w.hitbox, dir);
+					player.collision(w, dir);
 				}
 			}
 			else
 			{
-				player.collision(w.hitbox, dir);
+				player.collision(w, dir);
 			}
 			
 			if(bestDir != Direction.down){
@@ -104,7 +98,7 @@ public class Level {
 				}
 			}
 			
-			if(w.hitbox.x + w.hitbox.width < 0){
+			if(!viewport.contains(w.hitbox) && !viewport.overlaps(w.hitbox)){
 				toRemove.add(w);
 			}
 		}
@@ -122,6 +116,8 @@ public class Level {
 		//if(!viewport.contains(player.hitbox) && !viewport.overlaps(player.hitbox))
 		if(player.sprite.getX() + player.sprite.getWidth() < viewport.x || player.sprite.getY() + player.sprite.getHeight() + 10 < viewport.y)
 		{
+			bgm.stop();
+			bgm.dispose();
 			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOver());
 		}
 		return 0;

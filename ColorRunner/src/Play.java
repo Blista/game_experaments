@@ -14,8 +14,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Play implements Screen{
 	
-	AssetManager manager;
-	Music bgm;
 	SpriteBatch batch;
 	//LinkedList<Entity> entities, toAdd, toRemove;
 	Player player;
@@ -29,8 +27,7 @@ public class Play implements Screen{
 	
 	@Override
 	public void dispose() {
-		bgm.stop();
-		bgm.dispose();
+
 	}
 
 	@Override
@@ -71,13 +68,6 @@ public class Play implements Screen{
 	{
 		batch = new SpriteBatch();
 		white = new BitmapFont(Gdx.files.internal("res/white.fnt"), false);
-		manager = new AssetManager();
-		manager.load("res/livingTooLong.mp3", Music.class);
-		manager.finishLoading();
-		
-		bgm = manager.get("res/livingTooLong.mp3", Music.class);
-		bgm.play();
-		bgm.setLooping(true);
 		
 		if(viewport == null){
 			viewport = new Rectangle(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -107,7 +97,7 @@ public class Play implements Screen{
 		lev.makeWall("res/bullet.png", 200, 400, 100, 50, "white");
 	 
 		//lev.makeWall("res/bullet.png", 800, 200, 20, 600);
-		lev.addTexString("res/bullet.png");
+		lev.gen.addTexString("res/bullet.png");
 		
 		lev.setStartPos(100, 500);
 		return lev;

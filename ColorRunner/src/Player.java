@@ -13,7 +13,7 @@ public class Player extends Entity implements InputProcessor{
 	AssetManager manager;
 	static Texture playerTex, red, yellow, blue, orange, purple, green, black, white;
 	//Sprite sprite;
-	float maxSpeed, horizAccel;
+	float stoppedSpeed, maxSpeed, horizAccel;
 	long timer;
 	//float scaleSpeed;
 	boolean canJump, down, left, right, canWallJumpLeft, canWallJumpRight, gameOver;
@@ -24,7 +24,7 @@ public class Player extends Entity implements InputProcessor{
 	
 	protected Player(String imgLoc, float x, float y, float width, float height, String color) {
 		
-		super(imgLoc, x, y, width, height,color);
+		super(imgLoc, x, y, width, height, color);
 		//sprite.setScale((float)1);
 		//scale = 1;
 		canJump = false;
@@ -35,7 +35,8 @@ public class Player extends Entity implements InputProcessor{
 		acceleration = true;
 		gameOver = false;
 
-		maxSpeed = 200;
+		stoppedSpeed = 0;
+		maxSpeed = 300;
 		horizAccel = 1000;
 		grav = new Vector2(0, -980);
 		slide = new Vector2(0, 6);
@@ -81,26 +82,27 @@ public class Player extends Entity implements InputProcessor{
 			velocity.add(0, -maxSpeed);
 		}
 		*/
+		delayMovement(timer);
 		if(System.currentTimeMillis() - timer >= 100)
 		{
-			if(left && velocity.x > -maxSpeed){
+			if(left && velocity.x > stoppedSpeed-maxSpeed){
 				//velocity = new Vector2(-maxSpeed, (float)0);
 				velocity.add(-horizAccel*delta, 0);
-			}else if(!left && velocity.x < 0){
-				velocity.add(horizAccel*delta, 0);
-				if(velocity.x > 0){
-					velocity.x = 0;
+			}else if(!left && velocity.x < stoppedSpeed){
+				velocity.add(horizAccel/2*delta, 0);
+				if(velocity.x > stoppedSpeed){
+					velocity.x = stoppedSpeed;
 				}
-			}else if(velocity.x < -maxSpeed){
+			}else if(velocity.x < stoppedSpeed-maxSpeed){
 				velocity.x = -maxSpeed;
 			}
-			if(right && velocity.x < maxSpeed){
+			if(right && velocity.x < stoppedSpeed + maxSpeed){
 				//velocity = new Vector2(maxSpeed, (float)0);
 				velocity.add(horizAccel*delta, 0);
-			}else if(!right && velocity.x > 0){
-				velocity.add(-horizAccel*delta, 0);
-				if(velocity.x < 0){
-					velocity.x = 0;
+			}else if(!right && velocity.x > stoppedSpeed){
+				velocity.add(-horizAccel/2*delta, 0);
+				if(velocity.x < stoppedSpeed){
+					velocity.x = stoppedSpeed;
 				}
 			}else if(velocity.x > maxSpeed){
 				velocity.x = maxSpeed;
@@ -126,7 +128,8 @@ public class Player extends Entity implements InputProcessor{
 		changeColor();
 	}
 	
-	public void collision(Rectangle r, Direction dir){
+	public void collision(Entity wall, Direction dir){
+		Rectangle r = wall.hitbox;
 		float height = sprite.getHeight();
 		float width = sprite.getWidth();
 		float buffer = (float) 0;
@@ -159,6 +162,10 @@ public class Player extends Entity implements InputProcessor{
 			sprite.setPosition(r.x + r.getWidth()-buffer, r.y - height+buffer);
 //			velocity.x = 0;
 			velocity.y = 0;
+		}
+		
+		if(dir != Direction.still){
+			stoppedSpeed = wall.velocity.x;
 		}
 	}
 	
@@ -431,6 +438,13 @@ public class Player extends Entity implements InputProcessor{
 		{
 			canWallJumpRight = true;
 		}
+	}
+	
+	public void delayMovement(float timer)
+
+	{
+		if(System.currentTimeMillis() - timer >= 100)
+			acceleration = true;
 	}
 	public boolean getLeft()
 	{
