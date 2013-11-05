@@ -92,7 +92,7 @@ public class WallGenerator {
 			nextDist = rand.nextFloat()*(scale*100 + 100);
 			System.out.println(nextDist);
 			
-			lev.makeWall(texts[0], r);
+			lev.makeWall(texts[0], r, "white");
 		}
 	}
 }
