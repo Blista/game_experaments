@@ -88,7 +88,11 @@ public class Main implements ApplicationListener{
 	
 	public Level lev1(){
 		Level lev = new Level(player, viewport);
-		//lev.makeWall("res/bullet.png", 10, 200, 800, 50);
+		lev.makeWall("res/bullet.png", 0, 50, 1000, 50);
+		
+		lev.makeWall("res/bullet.png", 50, 200, 100, 20);
+		
+		lev.makeWall("res/bullet.png", 350, 320, 300, 20);
 		
 		//lev.makeWall("res/bullet.png", 100, 300, 80, 10);
 		

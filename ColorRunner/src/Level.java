@@ -60,11 +60,11 @@ public class Level {
 		
 		player.update(delta);
 				
-		gen.wallGen();
+		//gen.wallGen();
 	
 		
 		for(Entity w : walls){
-			w.velocity.x = -levelSpeed;
+			//w.velocity.x = -levelSpeed;
 			w.sprite.translate(w.velocity.x * delta, w.velocity.y * delta);
 			player.update(0);
 			w.update(delta);
