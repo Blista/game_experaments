@@ -14,11 +14,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-
+/**
+ * 
+ * @author Andrew
+ * splash screen that fades in and out
+ */
 public class Splash implements Screen
 {
+	//the image of the splash
 	private Sprite splash;
 	private SpriteBatch batch;
+	//tween used to add animation, particularly fading in and out
 	private TweenManager tweenManager;
 
 	@Override

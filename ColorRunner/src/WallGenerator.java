@@ -3,12 +3,15 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Rectangle;
 
-
+/**
+ * 
+ * @author Andrew
+ * generates walls, while it still being in range
+ */
 public class WallGenerator {
-
+	//linked list of textures to set the correct wall texture
 	LinkedList<String> textures;
 	//LinkedList<Rectangle> history;
-	
 	Random rand;
 	Level lev;
 	float nextDist;
@@ -94,5 +97,19 @@ public class WallGenerator {
 			
 			lev.makeWall(texts[0], r, "white");
 		}
+	}
+	public String randColor3(Random rand)
+	{
+		String color = "";
+		int randInt = rand.nextInt(3);
+		color = Level.color[randInt];
+		return color;
+	}
+	public String randColor6(Random rand)
+	{
+		String color = "";
+		int randInt = rand.nextInt(8);
+		color = Level.color[randInt];
+		return color;
 	}
 }

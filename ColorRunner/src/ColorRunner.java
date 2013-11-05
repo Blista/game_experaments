@@ -1,6 +1,13 @@
 
 import com.badlogic.gdx.Game;
 
+/**
+ * 
+ * @author Andrew
+ * runs the game, but this class mainly used for organizing the order
+ * in which the screens happen. Pretty much just runs the splash screen.
+ * 
+ */
 public class ColorRunner extends Game{
 	
 	@Override
