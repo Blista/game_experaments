@@ -21,13 +21,10 @@ public class Player extends Entity implements InputProcessor{
 	Vector2 grav, jump, slide, wallJumpLeft, wallJumpRight;
 	final static int BOX4C = 21;
 	Rectangle[] botCollision, topCollision, rightCollision, leftCollision;
-	//String color = "white";
 	
-	//float scale = 1;
-	
-	protected Player(String imgLoc, float x, float y, float width, float height) {
+	protected Player(String imgLoc, float x, float y, float width, float height, String color) {
 		
-		super(imgLoc, x, y, width, height);
+		super(imgLoc, x, y, width, height,color);
 		//sprite.setScale((float)1);
 		//scale = 1;
 		canJump = false;
@@ -65,7 +62,6 @@ public class Player extends Entity implements InputProcessor{
 		green = manager.get("res/green.png", Texture.class);
 		black = manager.get("res/black.png", Texture.class);
 		white = manager.get("res/CharacterImage.png", Texture.class);
-		
 		
 		initCollBoxes(x,y,width,height);		
 	}
@@ -134,7 +130,6 @@ public class Player extends Entity implements InputProcessor{
 		float height = sprite.getHeight();
 		float width = sprite.getWidth();
 		float buffer = (float) 0;
-		System.out.println(dir);
 		
 		if(dir == Direction.up){
 			sprite.setPosition(sprite.getX(), r.y - height + buffer);

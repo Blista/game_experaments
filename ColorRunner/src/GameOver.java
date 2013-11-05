@@ -44,6 +44,7 @@ public class GameOver implements Screen
 	}
 	public void show()
 	{
+	
 		//creates stage
 		stage = new Stage();
 		//allows input events for anything on stage
@@ -97,8 +98,8 @@ public class GameOver implements Screen
 		
 		//creating heading
 		LabelStyle headingStyle = new LabelStyle(white, Color.WHITE);
-		heading = new Label("Game Over",headingStyle);
-		heading.setFontScale(5);
+		heading = new Label(" Game Over\n" + Play.scoreString ,headingStyle);
+		heading.setFontScale(2);
 		
 		//add everything to table / create space between buttons
 		table.add(heading);

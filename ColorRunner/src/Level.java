@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -21,7 +22,6 @@ public class Level {
 	Rectangle viewport;
 	long lastTime;
 	float lastWallHeight;
-	boolean gameOver = false;
 	
 	protected Level(Player player, Rectangle viewport){
 		this.player = player;
@@ -34,8 +34,8 @@ public class Level {
 		lastTime = System.currentTimeMillis();
 	}
 	
-	public void makeWall(String tex, float x, float y, float width, float height){
-		Entity wall = new Entity(tex, (float)x, (float)y, (float)width, (float)height);
+	public void makeWall(String tex, float x, float y, float width, float height, String color){
+		Entity wall = new Entity(tex, (float)x, (float)y, (float)width, (float)height, color);
 		toAdd.add(wall);
 		
 	}	
@@ -49,7 +49,7 @@ public class Level {
 		String[] texts = textures.toArray(new String[0]);
 		//int texlen = texts.length;
 		
-		makeWall(texts[0], viewport.x+viewport.width, rand.nextFloat()*200, 100, 10);
+		makeWall(texts[0], viewport.x+viewport.width, rand.nextFloat()*200, 100, 10, "white");
 	}
 	
 	
@@ -72,7 +72,6 @@ public class Level {
 		long time = System.currentTimeMillis();
 		
 		player.update(delta);
-		
 		if(time - lastTime > 150000/levelSpeed){
 			lastTime = time;
 			wallGen();
@@ -85,7 +84,18 @@ public class Level {
 			w.update(delta);
 			//player.alignDirection(w.hitbox);
 			dir = player.alignDirection(w.hitbox);
-			player.collision(w.hitbox, dir);
+			
+			if(w.getColor().equals(player.getColor()))
+			{
+				if(player.getColor().equals("white"))
+				{
+					player.collision(w.hitbox, dir);
+				}
+			}
+			else
+			{
+				player.collision(w.hitbox, dir);
+			}
 			
 			if(bestDir != Direction.down){
 				if(dir == Direction.down || (bestDir != Direction.left && bestDir != Direction.right)){
@@ -109,6 +119,11 @@ public class Level {
 			i.remove();
 		}
 		
+		//if(!viewport.contains(player.hitbox) && !viewport.overlaps(player.hitbox))
+		if(player.sprite.getX() + player.sprite.getWidth() < viewport.x || player.sprite.getY() + player.sprite.getHeight() + 10 < viewport.y)
+		{
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOver());
+		}
 		return 0;
 	}
 	
@@ -118,11 +133,5 @@ public class Level {
 		}
 		player.render(batch);
 	}
-	public boolean gameOver()
-	{
-		if(player.sprite.getX() < 0 || player.sprite.getY() < -20)
-			gameOver = true;
-		return gameOver;
-	}
-	
+
 }

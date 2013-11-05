@@ -1,7 +1,5 @@
 
-
 import com.badlogic.gdx.Game;
-
 
 public class ColorRunner extends Game{
 	

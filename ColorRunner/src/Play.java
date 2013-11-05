@@ -1,12 +1,11 @@
 
-
-
-
 import java.util.LinkedList;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +14,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Play implements Screen{
 	
+	AssetManager manager;
+	Music bgm;
 	SpriteBatch batch;
 	//LinkedList<Entity> entities, toAdd, toRemove;
 	Player player;
@@ -23,11 +24,13 @@ public class Play implements Screen{
 	int gameProg;
 	int levelStatus;
 	private BitmapFont white;
-	private int score; 
+	private int score = 0; 
+	public static String scoreString;
 	
 	@Override
-	public void dispose() {	
-		
+	public void dispose() {
+		bgm.stop();
+		bgm.dispose();
 	}
 
 	@Override
@@ -42,7 +45,8 @@ public class Play implements Screen{
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		white.draw(batch, "Score: " + score, 20, Gdx.graphics.getHeight() - 50);
+		scoreString = "Score: " + score;
+		white.draw(batch, scoreString, 20, Gdx.graphics.getHeight() - 50);
 		if(gameProg < 6)levels[gameProg].render(batch);
 		batch.end();
 	}
@@ -67,13 +71,19 @@ public class Play implements Screen{
 	{
 		batch = new SpriteBatch();
 		white = new BitmapFont(Gdx.files.internal("res/white.fnt"), false);
+		manager = new AssetManager();
+		manager.load("res/livingTooLong.mp3", Music.class);
+		manager.finishLoading();
 		
+		bgm = manager.get("res/livingTooLong.mp3", Music.class);
+		bgm.play();
+		bgm.setLooping(true);
 		
 		if(viewport == null){
 			viewport = new Rectangle(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		}
 		
-		player = new Player("res/CharacterImage.png", 100, 100, 50, 50);
+		player = new Player("res/CharacterImage.png", 100, 100, 50, 50, "white");
 		
 		LinkedList<Level> tempLvl = new LinkedList<Level>();
 		levelStatus = 0;
@@ -85,19 +95,16 @@ public class Play implements Screen{
 		levels[gameProg].levelStart(Gdx.graphics.getDeltaTime());
 		Gdx.input.setInputProcessor(player);
 		
-		/*if(levels[gameProg].gameOver())
-		{
-			((Game) Gdx.app.getApplicationListener()).setScreen(new Play());
-		}*/
+
 	}
 	
 	public Level lev1(){
 		Level lev = new Level(player, viewport);
-		lev.makeWall("res/bullet.png", 10, 200, 800, 50);
+		lev.makeWall("res/buttonDown.png", 10, 200, 800, 50, "red");
 		
-		lev.makeWall("res/bullet.png", 100, 300, 80, 10);
+		lev.makeWall("res/buttonDown.png", 100, 300, 80, 10, "red");
 		
-		lev.makeWall("res/bullet.png", 200, 400, 100, 50);
+		lev.makeWall("res/bullet.png", 200, 400, 100, 50, "white");
 	 
 		//lev.makeWall("res/bullet.png", 800, 200, 20, 600);
 		lev.addTexString("res/bullet.png");
@@ -105,6 +112,5 @@ public class Play implements Screen{
 		lev.setStartPos(100, 500);
 		return lev;
 	}
-	
 	
 }

@@ -14,9 +14,9 @@ public class Entity {
 	//float scale = 1;
 	//Circle hitbox;
 	Rectangle hitbox;
-	String color = "";
+	String color;
 	
-	protected Entity(String imgLoc, float x, float y, float width, float height) {
+	protected Entity(String imgLoc, float x, float y, float width, float height, String color) {
 		manager = new AssetManager();
 		manager.load(imgLoc, Texture.class);
 		manager.finishLoading();
@@ -38,8 +38,7 @@ public class Entity {
 		//hitbox.setY(y);
 		hitbox.setWidth(width);//sprite.getWidth()*sprite.getScaleX());
 		hitbox.setHeight(height);//sprite.getHeight()*sprite.getScaleY());
-		
-		color = "white";
+		this.color = color;
 	}
 	
 	
@@ -59,6 +58,14 @@ public class Entity {
 	
 	public void render(SpriteBatch batch){
 		sprite.draw(batch);
+	}
+	public void setColor(String colorParam)
+	{
+		color = colorParam;
+	}
+	public String getColor()
+	{
+		return color;
 	}
 	
 }
