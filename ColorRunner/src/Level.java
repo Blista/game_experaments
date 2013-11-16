@@ -18,6 +18,7 @@ public class Level {
 	Music bgm;
 	WallGenerator gen;
 	LinkedList<Entity> walls, toAdd, toRemove;
+	LinkedList<LinkedList<Entity>> pregens;
 	Player player;
 	float startX, startY;
 	float levelSpeed;
@@ -28,6 +29,7 @@ public class Level {
 		walls = new LinkedList<Entity>();
 		toAdd = new LinkedList<Entity>();
 		toRemove = new LinkedList<Entity>();
+		pregens = new LinkedList<LinkedList<Entity>>();
 		levelSpeed = 100;
 		this.viewport = viewport;
 		gen = new WallGenerator(this);
@@ -39,17 +41,26 @@ public class Level {
 		bgm.setLooping(true);
 	}
 	
+	public void addPregen(LinkedList<Entity> pregen){
+		pregens.add(pregen);
+	}
+	
 	public void makeWall(String tex, float x, float y, float width, float height, String color){
 		Entity wall = new Entity(tex, (float)x, (float)y, (float)width, (float)height, color);
 		toAdd.add(wall);
 		
 	}	
 		
-	
 	public void makeWall(String tex, Rectangle r, String color){
 		Entity wall = new Entity(tex, r.x, r.y, r.width, r.height, color);
 		toAdd.add(wall);
 	}
+	
+	public void makeWall(Entity newWall){
+		//Entity wall = new Entity(newWall.entityTex, newWall.sprite.getX(), newWall.sprite.getY(), newWall.sprite.getWidth(), newWall.sprite.getHeight(), newWall.getColor());
+		toAdd.add(newWall);
+	}
+	
 	public void setStartPos(float x, float y){
 		startX = x;
 		startY = y;
@@ -92,13 +103,13 @@ public class Level {
 			}
 			
 			if(bestDir != Direction.down){
-				if(dir == Direction.down || (bestDir != Direction.left && bestDir != Direction.right)){
+				if((dir == Direction.down || (bestDir != Direction.left && bestDir != Direction.right)) && (player.color != w.color || w.color == "white")){
 					player.canJump(dir);
 					bestDir = dir;
 				}
 			}
 			
-			if(!viewport.contains(w.hitbox) && !viewport.overlaps(w.hitbox)){
+			if(viewport.x > w.hitbox.x + w.hitbox.width){
 				toRemove.add(w);
 			}
 		}

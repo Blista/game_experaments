@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Entity {
 	AssetManager manager;
-	static Texture entityTex;
+	Texture entityTex;
 	Sprite sprite;
 	Vector2 velocity;
 	//float scale = 1;
@@ -41,6 +41,25 @@ public class Entity {
 		this.color = color;
 	}
 	
+	protected Entity(Texture img, float x, float y, float width, float height, String color) {
+		manager = new AssetManager();
+		manager.finishLoading();
+		
+		entityTex = img;
+		
+		velocity = new Vector2();
+		
+		sprite = new Sprite(entityTex);//
+		sprite.setX(x);
+		sprite.setY(y);
+		sprite.setSize(width, height);
+		sprite.setOrigin(0,0);
+		
+		hitbox = new Rectangle();
+		hitbox.setWidth(width);
+		hitbox.setHeight(height);
+		this.color = color;
+	}
 	
 	public void setPosition(float x, float y){
 		//float horiz = x - sprite.getWidth()/2 + sprite.getWidth()*sprite.getScaleX()/2;
@@ -59,10 +78,12 @@ public class Entity {
 	public void render(SpriteBatch batch){
 		sprite.draw(batch);
 	}
+	
 	public void setColor(String colorParam)
 	{
 		color = colorParam;
 	}
+	
 	public String getColor()
 	{
 		return color;

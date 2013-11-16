@@ -178,14 +178,14 @@ public class Player extends Entity implements InputProcessor{
 			}
 			else if (canWallJumpLeft)
 			{
-				velocity.x = wallJumpLeft.x;
+				velocity.x = wallJumpLeft.x + stoppedSpeed;
 				velocity.y = wallJumpLeft.y;
 				acceleration = false;
 				timer = System.currentTimeMillis();
 			}
 			else if(canWallJumpRight)
 			{
-				velocity.x = wallJumpRight.x;
+				velocity.x = wallJumpRight.x + stoppedSpeed;
 				velocity.y = wallJumpRight.y;
 				acceleration = false;
 				timer = System.currentTimeMillis();
