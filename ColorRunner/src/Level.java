@@ -24,6 +24,7 @@ public class Level {
 	WallGenerator gen;
 	//linked list of walls. add before the viewport and to remove after exiting viewport
 	LinkedList<Entity> walls, toAdd, toRemove;
+	LinkedList<LinkedList<Entity>> pregens;
 	Player player;
 	//starting x and y of the player
 	float startX, startY;
@@ -44,7 +45,8 @@ public class Level {
 		walls = new LinkedList<Entity>();
 		toAdd = new LinkedList<Entity>();
 		toRemove = new LinkedList<Entity>();
-		levelSpeed = 200;
+		pregens = new LinkedList<LinkedList<Entity>>();
+		levelSpeed = 100;
 		this.viewport = viewport;
 		gen = new WallGenerator(this);
 		manager = new AssetManager();
@@ -73,6 +75,11 @@ public class Level {
 	 * @param height
 	 * @param color
 	 */
+	
+	public void addPregen(LinkedList<Entity> pregen){
+		pregens.add(pregen);
+	}
+	
 	public void makeWall(String tex, float x, float y, float width, float height, String color){
 		Entity wall = new Entity(tex, (float)x, (float)y, (float)width, (float)height, color);
 		toAdd.add(wall);
@@ -88,6 +95,14 @@ public class Level {
 		Entity wall = new Entity(tex, r.x, r.y, r.width, r.height, color);
 		toAdd.add(wall);
 	}
+	
+		
+	public void makeWall(Entity newWall){
+		//Entity wall = new Entity(newWall.entityTex, newWall.sprite.getX(), newWall.sprite.getY(), newWall.sprite.getWidth(), newWall.sprite.getHeight(), newWall.getColor());
+		toAdd.add(newWall);
+	}
+	
+	
 	/**
 	 * sets starting position
 	 * @param x
@@ -141,13 +156,13 @@ public class Level {
 			}
 			
 			if(bestDir != Direction.down){
-				if(dir == Direction.down || (bestDir != Direction.left && bestDir != Direction.right)){
+				if((dir == Direction.down || (bestDir != Direction.left && bestDir != Direction.right)) && (player.color != w.color || w.color == "white")){
 					player.canJump(dir);
 					bestDir = dir;
 				}
 			}
 			
-			if(!viewport.contains(w.hitbox) && !viewport.overlaps(w.hitbox)){
+			if(viewport.x > w.hitbox.x + w.hitbox.width){
 				toRemove.add(w);
 			}
 		}

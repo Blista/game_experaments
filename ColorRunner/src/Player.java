@@ -60,7 +60,7 @@ public class Player extends Entity implements InputProcessor{
 		horizAccel = 1000;
 		grav = new Vector2(0, -980);
 		slide = new Vector2(0, 6);
-		jump = new Vector2(0, 1000);
+		jump = new Vector2(0, 500);
 		wallJumpLeft = new Vector2(200,500);
 		wallJumpRight= new Vector2(-200,500);
 		
@@ -96,6 +96,7 @@ public class Player extends Entity implements InputProcessor{
 	 * update the player, changing his speed / status
 	 * also moves the collision detection
 	 */
+	
 	public void update(float delta){
 		velocity.add(grav.x *delta, grav.y * delta);
 		
@@ -206,14 +207,14 @@ public class Player extends Entity implements InputProcessor{
 			}
 			else if (canWallJumpLeft)
 			{
-				velocity.x = wallJumpLeft.x;
+				velocity.x = wallJumpLeft.x + stoppedSpeed;
 				velocity.y = wallJumpLeft.y;
 				acceleration = false;
 				timer = System.currentTimeMillis();
 			}
 			else if(canWallJumpRight)
 			{
-				velocity.x = wallJumpRight.x;
+				velocity.x = wallJumpRight.x + stoppedSpeed;
 				velocity.y = wallJumpRight.y;
 				acceleration = false;
 				timer = System.currentTimeMillis();
@@ -290,6 +291,7 @@ public class Player extends Entity implements InputProcessor{
 		}
 		return false;
 	}
+	
 	/**
 	 * creates the rectangles that surround the player that help define which
 	 * collision the player is having
@@ -316,6 +318,7 @@ public class Player extends Entity implements InputProcessor{
 			rightCollision[i] = new Rectangle(x + width/2, y + (boxHeight*i), width/2, boxHeight);
 		}
 	}
+	
 	/**
 	 * checks the collision of the boxes, against the walls
 	 * @param wall
@@ -334,6 +337,7 @@ public class Player extends Entity implements InputProcessor{
 		}
 		return numColl;
 	}
+	
 	/**
 	 * aligns the direction for which way the player would be coliding
 	 * with the walls
@@ -428,6 +432,7 @@ public class Player extends Entity implements InputProcessor{
 			rightCollision[i].setY(y + (boxHeight*i));
 		}
 	}
+	
 	/**
 	 * changes the color of the player depending on which
 	 * keys are down.
@@ -475,6 +480,7 @@ public class Player extends Entity implements InputProcessor{
 			color = Level.color[3];
 		}
 	}
+	
 	/**
 	 * checks if the player can jump or not
 	 * also includes wall jumping.
@@ -499,6 +505,7 @@ public class Player extends Entity implements InputProcessor{
 			canWallJumpRight = true;
 		}
 	}
+	
 	/**
 	 * delays movement after walljumping to
 	 * get the correct arc.

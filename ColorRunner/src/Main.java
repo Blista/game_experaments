@@ -10,7 +10,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
  * 
  */
 public class Main {
-
 	/**
 	 * creates the application and sets the width and height of the screen. also creates the titles
 	 * @param args
