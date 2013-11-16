@@ -8,20 +8,40 @@ import com.badlogic.gdx.math.Vector2;
 
 
 
-
+/**
+ * 
+ * @author Andrew
+ * player class that has collision direction, jumping, speeds
+ */
 public class Player extends Entity implements InputProcessor{
 	AssetManager manager;
+	//all the different textures of the player
 	static Texture playerTex, red, yellow, blue, orange, purple, green, black, white;
 	//Sprite sprite;
+	//floats for constant moving and max speed
 	float stoppedSpeed, maxSpeed, horizAccel;
 	long timer;
 	//float scaleSpeed;
+	//booleans that allow you to jump or not
 	boolean canJump, down, left, right, canWallJumpLeft, canWallJumpRight, gameOver;
+	//booleans to help set the correct colored texture
 	boolean redB, yellowB, blueB, acceleration;
+	//vectors for movement
 	Vector2 grav, jump, slide, wallJumpLeft, wallJumpRight;
+	//constant for colission
 	final static int BOX4C = 21;
+	//all the arrays of rectangles for colission
 	Rectangle[] botCollision, topCollision, rightCollision, leftCollision;
 	
+	/**
+	 * constructor of a player
+	 * @param imgLoc
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param color
+	 */
 	protected Player(String imgLoc, float x, float y, float width, float height, String color) {
 		
 		super(imgLoc, x, y, width, height, color);
@@ -72,6 +92,10 @@ public class Player extends Entity implements InputProcessor{
 		
 	//}
 	
+	/**
+	 * update the player, changing his speed / status
+	 * also moves the collision detection
+	 */
 	
 	public void update(float delta){
 		velocity.add(grav.x *delta, grav.y * delta);
@@ -128,6 +152,11 @@ public class Player extends Entity implements InputProcessor{
 		changeColor();
 	}
 	
+	/**
+	 * checks for collision and pushes him out accordinglyt
+	 * @param wall
+	 * @param dir
+	 */
 	public void collision(Entity wall, Direction dir){
 		Rectangle r = wall.hitbox;
 		float height = sprite.getHeight();
@@ -262,6 +291,15 @@ public class Player extends Entity implements InputProcessor{
 		}
 		return false;
 	}
+	
+	/**
+	 * creates the rectangles that surround the player that help define which
+	 * collision the player is having
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public void initCollBoxes(float x,float y, float width, float height)
 	{
 		botCollision = new Rectangle[BOX4C];
@@ -280,6 +318,13 @@ public class Player extends Entity implements InputProcessor{
 			rightCollision[i] = new Rectangle(x + width/2, y + (boxHeight*i), width/2, boxHeight);
 		}
 	}
+	
+	/**
+	 * checks the collision of the boxes, against the walls
+	 * @param wall
+	 * @param array
+	 * @return
+	 */
 	public int checkCollBoxes(Rectangle wall, Rectangle[] array)
 	{
 		int numColl = 0;
@@ -292,6 +337,13 @@ public class Player extends Entity implements InputProcessor{
 		}
 		return numColl;
 	}
+	
+	/**
+	 * aligns the direction for which way the player would be coliding
+	 * with the walls
+	 * @param wall
+	 * @return
+	 */
 	public Direction alignDirection(Rectangle wall)
 	{
 		int top = checkCollBoxes(wall, topCollision);
@@ -353,6 +405,9 @@ public class Player extends Entity implements InputProcessor{
 		return Direction.still;
 	}
 	
+	/**
+	 * moves the colission boxes with the player
+	 */
 	public void moveBox()
 	{
 		float x = sprite.getX();
@@ -377,49 +432,60 @@ public class Player extends Entity implements InputProcessor{
 			rightCollision[i].setY(y + (boxHeight*i));
 		}
 	}
+	
+	/**
+	 * changes the color of the player depending on which
+	 * keys are down.
+	 */
 	public void changeColor()
 	{
 		if(!redB && !yellowB && !blueB)
 		{
 			sprite.setTexture(white);
-			color = "white";
+			color = Level.color[0];
 		}
 		else if(redB && yellowB && blueB)
 		{
 			sprite.setTexture(black);
-			color = "black";
+			color = Level.color[7];
 		}
 		else if(redB && yellowB)
 		{
 			sprite.setTexture(orange);
-			color = "orange";
+			color = Level.color[4];
 		}
 		else if(redB && blueB)
 		{
 			sprite.setTexture(purple);
-			color = "purple";
+			color = Level.color[5];
 		}
 		else if(yellowB && blueB)
 		{
 			sprite.setTexture(green);
-			color = "green";
+			color = Level.color[6];
 		}
 		else if(redB)
 		{
 			sprite.setTexture(red);
-			color = "red";
+			color = Level.color[1];
 		}
 		else if(yellowB)
 		{
 			sprite.setTexture(yellow);
-			color = "yellow";
+			color = Level.color[2];
 		}
 		else if(blueB)
 		{
 			sprite.setTexture(blue);
-			color = "blue";
+			color = Level.color[3];
 		}
 	}
+	
+	/**
+	 * checks if the player can jump or not
+	 * also includes wall jumping.
+	 * @param dir
+	 */
 	public void canJump(Direction dir)
 	{
 		canJump = false;
@@ -440,6 +506,11 @@ public class Player extends Entity implements InputProcessor{
 		}
 	}
 	
+	/**
+	 * delays movement after walljumping to
+	 * get the correct arc.
+	 * @param timer
+	 */
 	public void delayMovement(float timer)
 
 	{

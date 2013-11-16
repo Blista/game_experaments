@@ -10,20 +10,37 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-
-
+/**
+ * 
+ * @author Andrew
+ * creates the walls of each level
+ */
 public class Level {
 	
+	//asset manager to create the music
 	AssetManager manager;
+	//the music object
 	Music bgm;
+	//object to generate walls that are within jumping distance
 	WallGenerator gen;
+	//linked list of walls. add before the viewport and to remove after exiting viewport
 	LinkedList<Entity> walls, toAdd, toRemove;
 	LinkedList<LinkedList<Entity>> pregens;
 	Player player;
+	//starting x and y of the player
 	float startX, startY;
+	//the speed at which the level moves
 	float levelSpeed;
+	// rectangle to know the bounds of the screen
 	Rectangle viewport;
+	//array of all the different colors
+	public static String[] color = new String[8];
 	
+	/**
+	 * constructs all wall linked lists, players, manager, bgm, and color[]
+	 * @param player
+	 * @param viewport
+	 */
 	protected Level(Player player, Rectangle viewport){
 		this.player = player;
 		walls = new LinkedList<Entity>();
@@ -39,7 +56,26 @@ public class Level {
 		bgm = manager.get("res/livingTooLong.mp3", Music.class);
 		bgm.play();
 		bgm.setLooping(true);
+		
+		color[0] = "white";
+		color[1] = "red";
+		color[2] = "yellow";
+		color[3] = "blue";
+		color[4] = "orange";
+		color[5] = "purple";
+		color[6] = "green";
+		color[7] = "black";
+		
 	}
+	/**
+	 * method to make a wall with these parameters
+	 * @param tex
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param color
+	 */
 	
 	public void addPregen(LinkedList<Entity> pregen){
 		pregens.add(pregen);
@@ -50,6 +86,12 @@ public class Level {
 		toAdd.add(wall);
 		
 	}	
+	/**
+	 * method to make a wall with rectangle parameter
+	 * @param tex
+	 * @param r
+	 * @param color
+	 */
 		
 	public void makeWall(String tex, Rectangle r, String color){
 		Entity wall = new Entity(tex, r.x, r.y, r.width, r.height, color);
@@ -61,11 +103,21 @@ public class Level {
 		toAdd.add(newWall);
 	}
 	
+	/**
+	 * sets starting position
+	 * @param x
+	 * @param y
+	 */
 	public void setStartPos(float x, float y){
 		startX = x;
 		startY = y;
 	}
 	
+	/**
+	 * starts the level
+	 * @param delta
+	 * @return update
+	 */
 	public int levelStart(float delta){
 		player.setPosition(startX, startY);
 		return update(delta);
@@ -74,6 +126,11 @@ public class Level {
 		
 	}
 	
+		/**
+	 * updates the level
+	 * @param delta
+	 * @return 0; for no apparent reason
+	 */
 	public int update(float delta){
 		Direction dir, bestDir;
 		bestDir = Direction.still;
@@ -133,7 +190,10 @@ public class Level {
 		}
 		return 0;
 	}
-	
+	/**
+	 * renders everything on the level
+	 * @param batch
+	 */
 	public void render(SpriteBatch batch){
 		for(Entity w : walls){
 			w.render(batch);

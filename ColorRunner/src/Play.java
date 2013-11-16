@@ -3,10 +3,20 @@ import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+/**
+ * 
+ * @author Andrew
+ * the class that you actually play the game on,
+ * has levels in it that create the platforms
+ * 
+ */
 
 
 public class Play implements Screen{
@@ -15,11 +25,16 @@ public class Play implements Screen{
 	//LinkedList<Entity> entities, toAdd, toRemove;
 	Player player;
 	Rectangle viewport;
+	//levels that create the walls
 	Level[] levels;
+	// how far you are in the game
 	int gameProg;
 	int levelStatus;
+	// font for score
 	private BitmapFont white;
+	//int for the score
 	private int score = 0; 
+	//string for the score
 	public static String scoreString;
 	
 	@Override
@@ -63,6 +78,7 @@ public class Play implements Screen{
 	@Override
 	public void show()
 	{
+		//creates the sprite batch and font
 		batch = new SpriteBatch();
 		white = new BitmapFont(Gdx.files.internal("res/white.fnt"), false);
 		
@@ -70,7 +86,8 @@ public class Play implements Screen{
 			viewport = new Rectangle(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		}
 		
-		player = new Player("res/CharacterImage.png", 100, 100, 50, 50, "white");
+		//creates the characterImage
+		player = new Player("res/CharacterImage.png", 100, 100, 32, 50, "white");
 		
 		LinkedList<Level> tempLvl = new LinkedList<Level>();
 		levelStatus = 0;
@@ -87,6 +104,10 @@ public class Play implements Screen{
 
 	}
 	
+	/**
+	 * creates the beginning levels
+	 * @return lev which is a Level object
+	 */
 	public Level lev1(){
 		Level lev = new Level(player, viewport);
 		/*
