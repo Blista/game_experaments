@@ -24,7 +24,7 @@ public class MainMenu implements Screen
 	private TextureAtlas atlas;
 	private Skin skin;
 	private Table table;
-	private TextButton exitButton, playButton;
+	private TextButton exitButton, playButton, instructions;
 	private BitmapFont white;
 	private Label heading;
 	
@@ -68,6 +68,19 @@ public class MainMenu implements Screen
 		style.pressedOffsetY = -1;
 		style.font = white;
 		
+		//creating play button
+		playButton = new TextButton("Play", style);
+		playButton.pad(10);
+		playButton.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				//starts the game
+				((Game) Gdx.app.getApplicationListener()).setScreen(new Play());
+				//((Game) Gdx.app.getApplicationListener()).setScreen(new GameOver());
+				 
+			}
+		});
 
 		//creating exit button
 		exitButton = new TextButton("Exit", style);
@@ -80,18 +93,14 @@ public class MainMenu implements Screen
 			}
 		});
 		
-		//creating play button
-		playButton = new TextButton("Play", style);
-		playButton.pad(10);
-		playButton.addListener(new ClickListener(){
-			//doesnt do anything yet
+		//creating the instruction button
+		instructions = new TextButton("Instructions" , style);
+		instructions.pad(10);
+		instructions.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				//starts the game
-				((Game) Gdx.app.getApplicationListener()).setScreen(new Play());
-				//((Game) Gdx.app.getApplicationListener()).setScreen(new GameOver());
-				 
+				((Game) Gdx.app.getApplicationListener()).setScreen(new Instructions());
 			}
 		});
 		
@@ -104,10 +113,12 @@ public class MainMenu implements Screen
 		table.add(heading);
 		table.getCell(heading).spaceBottom(100);
 		table.row();
-		table.add(playButton);
+		table.add(playButton).width(250);
 		table.getCell(playButton).spaceBottom(20);
 		table.row();
-		table.add(exitButton);
+		table.add(instructions).width(250).spaceBottom(20);
+		table.row();
+		table.add(exitButton).width(250);
 		table.debug();
 		stage.addActor(table);
 		

@@ -44,7 +44,7 @@ public class Level {
 		walls = new LinkedList<Entity>();
 		toAdd = new LinkedList<Entity>();
 		toRemove = new LinkedList<Entity>();
-		levelSpeed = 100;
+		levelSpeed = 200;
 		this.viewport = viewport;
 		gen = new WallGenerator(this);
 		manager = new AssetManager();

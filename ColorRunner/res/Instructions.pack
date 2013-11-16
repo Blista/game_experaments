@@ -1,0 +1,75 @@
+
+Instructions.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+keySpace
+  rotate: false
+  xy: 1, 103
+  size: 300, 100
+  orig: 300, 100
+  offset: 0, 0
+  index: -1
+buttonDown
+  rotate: false
+  xy: 1, 8
+  size: 150, 93
+  orig: 150, 93
+  offset: 0, 0
+  index: -1
+buttonUp
+  rotate: false
+  xy: 303, 110
+  size: 150, 93
+  orig: 150, 93
+  offset: 0, 0
+  index: -1
+keyA
+  rotate: false
+  xy: 153, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+keyD
+  rotate: false
+  xy: 455, 103
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+keyI
+  rotate: false
+  xy: 557, 103
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+keyO
+  rotate: false
+  xy: 659, 103
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+keyP
+  rotate: false
+  xy: 761, 103
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+keyS
+  rotate: false
+  xy: 863, 103
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+keyW
+  rotate: false
+  xy: 255, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1

@@ -60,7 +60,7 @@ public class Player extends Entity implements InputProcessor{
 		horizAccel = 1000;
 		grav = new Vector2(0, -980);
 		slide = new Vector2(0, 6);
-		jump = new Vector2(0, 500);
+		jump = new Vector2(0, 1000);
 		wallJumpLeft = new Vector2(200,500);
 		wallJumpRight= new Vector2(-200,500);
 		
