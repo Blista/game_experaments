@@ -122,7 +122,7 @@ public class WallGenerator {
 			float scale = ((y+height) / (range/(float)2.0)); 
 			if(scale > 1){ scale = 1;}
 			
-			nextDist = rand.nextFloat()*(300 - scale*100);
+			nextDist = rand.nextFloat()*(280 - scale*100);
 			//System.out.println(nextDist);
 			
 

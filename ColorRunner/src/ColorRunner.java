@@ -12,7 +12,7 @@ public class ColorRunner extends Game{
 	
 	@Override
 	public void create() {	
-		setScreen(new Splash());
+		setScreen(new Play());//Splash());
 		//setScreen(new Instructions());
 	}
 
