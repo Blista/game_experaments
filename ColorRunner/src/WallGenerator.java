@@ -71,7 +71,7 @@ public class WallGenerator {
 				if(rand.nextInt(5) == 3){
 					LinkedList<Entity> nextGens = pregens[rand.nextInt(pregens.length)];
 					
-					while(nextGens.peekFirst() == null || nextGens.peekFirst().sprite.getX() + nextGens.peekFirst().sprite.getHeight() > range / 2.0){
+					while(nextGens.peekFirst() == null || (nextGens.peekFirst().sprite.getY() + nextGens.peekFirst().sprite.getHeight() > range / 2.0 + old.y + old.height) || (nextGens.peekFirst().sprite.getY() + nextGens.peekFirst().sprite.getHeight() < old.y + old.height - range / 2.0)){
 						nextGens = pregens[rand.nextInt(pregens.length)];
 					}
 					
@@ -126,7 +126,7 @@ public class WallGenerator {
 			float scale = ((y+height) / (range/(float)2.0)); 
 			if(scale > 1){ scale = 1;}
 			
-			nextDist = rand.nextFloat()*(280 - scale*100);
+			nextDist = rand.nextFloat()*(220 - scale*100);
 			//System.out.println(nextDist);
 			
 

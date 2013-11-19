@@ -95,6 +95,14 @@ public class Play implements Screen{
 		
 		Level lev1 = lev1();
 		lev1.addPregen(fab1());
+		lev1.addPregen(fab2());
+		lev1.addPregen(fab3());
+		lev1.addPregen(fab4());
+		lev1.addPregen(fab5());
+		lev1.addPregen(fab6());
+		lev1.addPregen(fab7());
+		lev1.addPregen(fab8());
+		lev1.addPregen(fab9());
 		tempLvl.add(lev1);
 		
 		levels = (Level[]) tempLvl.toArray(new Level[0]);
@@ -146,5 +154,131 @@ public class Play implements Screen{
 		return set;
 	}
 	
+	//img texture, x, y , width height, color
+	public LinkedList<Entity> fab2() {
+		LinkedList<Entity> set = new LinkedList<Entity>();
+		set.add(new Entity("res/bullet.png",0,340,100,20,"white"));
+		set.add(new Entity("res/bullet.png",120,0,20,700, "red"));
+		set.add(new Entity("res/bullet.png", 300,590,100,20,"white"));
+		set.add(new Entity("res/bullet.png", 300,190,200,20,"white"));
+		set.add(new Entity("res/bullet.png", 480,350,20,260,"red"));
+		set.add(new Entity("res/bullet.png", 600,500,20,200,"red"));
+		set.add(new Entity("res/bullet.png", 600,0,20,400,"white"));
+		set.add(new Entity("res/bullet.png", 750,300,100,20,"white"));
+		
+		return set;
+	}
+	
+	public LinkedList<Entity> fab3() {
+		LinkedList<Entity> set = new LinkedList<Entity>();
+		
+		set.add(new Entity("res/bullet.png",0,550,100,20,"white"));
+		set.add(new Entity("res/bullet.png",0,100,300,20,"red"));
+		set.add(new Entity("res/bullet.png",80,300,120,20,"red"));
+		set.add(new Entity("res/bullet.png",200,300,20,400,"white"));
+		set.add(new Entity("res/bullet.png",250,200,100,20, "blue"));
+		set.add(new Entity("res/bullet.png", 250,300,100,20,"yellow"));
+		set.add(new Entity("res/bullet.png", 300,600,300,20,"white"));
+		set.add(new Entity("res/bullet.png", 900,100,100,20,"white"));
+		
+		return set;
+	}
+	
+	public LinkedList<Entity> fab4(){
+		LinkedList<Entity> set = new LinkedList<Entity>();
+		
+		set.add(new Entity("res/bullet.png", 0,400,100,20, "white"));
+		set.add(new Entity("res/bullet.png", 100,0,20,700, " red"));
+		set.add(new Entity("res/bullet.png", 200,500, 100, 20, "white"));
+		set.add(new Entity("res/bullet.png", 350,0,20,700,"yellow"));
+		set.add(new Entity("res/bullet.png", 450,600,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 550,0,20,700, "blue"));
+		set.add(new Entity("res/bullet.png", 650,650,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 750,0,20,700, "orange"));
+		set.add(new Entity("res/bullet.png", 810,550,100,20, "white"));
+		
+		return set;
+	}
+	
+	public LinkedList<Entity> fab5() {
+		LinkedList<Entity> set = new LinkedList<Entity>();
+		
+		set.add(new Entity("res/bullet.png", 0,592,100,20, "white"));
+		set.add(new Entity("res/bullet.png", 100,0,20,700, " red"));
+		set.add(new Entity("res/bullet.png", 200,447, 100, 20, "white"));
+		set.add(new Entity("res/bullet.png", 350,0,20,700,"yellow"));
+		set.add(new Entity("res/bullet.png", 450,510,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 550,0,20,700, "blue"));
+		set.add(new Entity("res/bullet.png", 650,220,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 750,0,20,700, "orange"));
+		set.add(new Entity("res/bullet.png", 810,306,100,20, "white"));
+		
+		return set;
+	}
+	
+	public LinkedList<Entity> fab6() {
+		LinkedList<Entity> set = new LinkedList<Entity>();
+		
+		set.add(new Entity("res/bullet.png", 0,222,100,20, "white"));
+		set.add(new Entity("res/bullet.png", 100,0,20,700, " red"));
+		set.add(new Entity("res/bullet.png", 200,312, 100, 20, "white"));
+		set.add(new Entity("res/bullet.png", 350,0,20,700,"yellow"));
+		set.add(new Entity("res/bullet.png", 450,402,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 550,0,20,700, "blue"));
+		set.add(new Entity("res/bullet.png", 650,536,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 750,0,20,700, "orange"));
+		set.add(new Entity("res/bullet.png", 810,580,100,20, "white"));
+		
+		return set;
+	}
+	
+	public LinkedList<Entity> fab7() {
+		LinkedList<Entity> set = new LinkedList<Entity>();
+		
+		set.add(new Entity("res/bullet.png", 0,53,100,20, "white"));
+		set.add(new Entity("res/bullet.png", 100,0,20,700, " red"));
+		set.add(new Entity("res/bullet.png", 200,111, 100, 20, "white"));
+		set.add(new Entity("res/bullet.png", 350,0,20,700,"yellow"));
+		set.add(new Entity("res/bullet.png", 450,198,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 550,0,20,700, "blue"));
+		set.add(new Entity("res/bullet.png", 650,250,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 750,0,20,700, "orange"));
+		set.add(new Entity("res/bullet.png", 810,333,100,20, "white"));
+		
+		return set;
+	}
+	
+	public LinkedList<Entity> fab8() {
+		LinkedList<Entity> set = new LinkedList<Entity>();
+		
+		set.add(new Entity("res/bullet.png", 0,200,50,20, "red"));
+		set.add(new Entity("res/bullet.png",20,310,20,400,"white"));
+		set.add(new Entity("res/bullet.png",100,100,20,500,"white"));
+		set.add(new Entity("res/bullet.png",120,400,200,20,"blue"));
+		set.add(new Entity("res/bullet.png",160,0,280,20,"white"));
+		set.add(new Entity("res/bullet.png",320,400,20,300,"white"));
+		set.add(new Entity("res/bullet.png", 450,0,20,700,"yellow"));
+		set.add(new Entity("res/bullet.png",500,0,30,20, "yellow"));
+		set.add(new Entity("res/bullet.png",550,0,20,700, "yellow"));
+		set.add(new Entity("res/bullet.png",590,0,30,20, "yellow"));
+		
+		return set;
+	}
+	
+	public LinkedList<Entity> fab9() {
+		LinkedList<Entity> set = new LinkedList<Entity>();
+		
+		set.add(new Entity("res/bullet.png", 0,500,50,20,"white"));
+		set.add(new Entity("res/bullet.png", 50,500,20,200, "red"));
+		set.add(new Entity("res/bullet.png",70,300,50,20,"red"));
+		set.add(new Entity("res/bullet.png",120,300,20,200,"yellow"));
+		set.add(new Entity("res/bullet.png",140,100,50,20,"yellow"));
+		set.add(new Entity("res/bullet.png",190,100,20,200, "blue"));
+		set.add(new Entity("res/bullet.png", 290,150,100,20, "blue"));
+		set.add(new Entity("res/bullet.png", 500,0,40,700, "orange"));
+		set.add(new Entity("res/bullet.png", 520,400,120,20, "orange"));
+		
+		return set;
+	}
 	
 }
