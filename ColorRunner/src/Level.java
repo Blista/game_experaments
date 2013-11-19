@@ -2,6 +2,7 @@
 
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -91,17 +92,16 @@ public class Level {
 	 * @param r
 	 * @param color
 	 */
+		
 	public void makeWall(String tex, Rectangle r, String color){
 		Entity wall = new Entity(tex, r.x, r.y, r.width, r.height, color);
 		toAdd.add(wall);
 	}
 	
-		
 	public void makeWall(Entity newWall){
 		//Entity wall = new Entity(newWall.entityTex, newWall.sprite.getX(), newWall.sprite.getY(), newWall.sprite.getWidth(), newWall.sprite.getHeight(), newWall.getColor());
 		toAdd.add(newWall);
 	}
-	
 	
 	/**
 	 * sets starting position
@@ -122,7 +122,11 @@ public class Level {
 		player.setPosition(startX, startY);
 		return update(delta);
 	}
-	/**
+	public void levelEnd(){
+		
+	}
+	
+		/**
 	 * updates the level
 	 * @param delta
 	 * @return 0; for no apparent reason

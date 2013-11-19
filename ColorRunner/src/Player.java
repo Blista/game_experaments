@@ -1,7 +1,8 @@
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -439,8 +440,12 @@ public class Player extends Entity implements InputProcessor{
 	 */
 	public void changeColor()
 	{
+		Color c1 = new Color();
+		
 		if(!redB && !yellowB && !blueB)
 		{
+			//c1.set(new Color((float)1, (float)1, (float)1, (float)1));
+			//sprite.setColor(c1);
 			sprite.setTexture(white);
 			color = Level.color[0];
 		}
@@ -466,6 +471,8 @@ public class Player extends Entity implements InputProcessor{
 		}
 		else if(redB)
 		{
+			//c1.set((float)1.0, (float)0.1, (float)0.1, (float)1.0);
+			//sprite.setColor(c1);//setColor(float r, float g, float b, float a)
 			sprite.setTexture(red);
 			color = Level.color[1];
 		}
@@ -476,6 +483,8 @@ public class Player extends Entity implements InputProcessor{
 		}
 		else if(blueB)
 		{
+			//c1.set((float)0.2, (float)0.2, (float)1.0, (float)1.0);
+			//sprite.setColor(c1);
 			sprite.setTexture(blue);
 			color = Level.color[3];
 		}
