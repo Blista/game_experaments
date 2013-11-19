@@ -66,23 +66,23 @@ public class Player extends Entity implements InputProcessor{
 		wallJumpRight= new Vector2(-200,500);
 		
 		manager = new AssetManager();
-		manager.load("res/red.png", Texture.class);
-		manager.load("res/yellow.png", Texture.class);
-		manager.load("res/blue.png", Texture.class);
-		manager.load("res/orange.png", Texture.class);
-		manager.load("res/purple.png", Texture.class);
-		manager.load("res/green.png", Texture.class);
-		manager.load("res/black.png", Texture.class);
+		manager.load("res/CharacterRed.png", Texture.class);
+		manager.load("res/CharacterYellow.png", Texture.class);
+		manager.load("res/CharacterBlue.png", Texture.class);
+		manager.load("res/CharacterOrange.png", Texture.class);
+		manager.load("res/CharacterPurple.png", Texture.class);
+		manager.load("res/CharacterGreen.png", Texture.class);
+		manager.load("res/CharacterBlack.png", Texture.class);
 		manager.load("res/CharacterImage.png", Texture.class);
 		manager.finishLoading();
 		
-		red = manager.get("res/red.png", Texture.class);
-		yellow = manager.get("res/yellow.png", Texture.class);
-		blue  = manager.get("res/blue.png", Texture.class);
-		orange = manager.get("res/orange.png", Texture.class);
-		purple = manager.get("res/purple.png", Texture.class);
-		green = manager.get("res/green.png", Texture.class);
-		black = manager.get("res/black.png", Texture.class);
+		red = manager.get("res/CharacterRed.png", Texture.class);
+		yellow = manager.get("res/CharacterYellow.png", Texture.class);
+		blue  = manager.get("res/CharacterBlue.png", Texture.class);
+		orange = manager.get("res/CharacterOrange.png", Texture.class);
+		purple = manager.get("res/CharacterPurple.png", Texture.class);
+		green = manager.get("res/CharacterGreen.png", Texture.class);
+		black = manager.get("res/CharacterBlack.png", Texture.class);
 		white = manager.get("res/CharacterImage.png", Texture.class);
 		
 		initCollBoxes(x,y,width,height);		

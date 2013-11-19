@@ -83,7 +83,11 @@ public class WallGenerator {
 							Entity nextWall = new Entity(template.entityTex, template.sprite.getX(), template.sprite.getY(), template.sprite.getWidth(), template.sprite.getHeight(), template.getColor());
 							
 							if(nextWall.getColor() != "white"){
-								//nextWall.setColor(lev.color[rand.nextInt(8)]);
+								String clr = randColor3(new Random());
+								String resource;
+								if(clr == "white") resource = "bullet";
+								else resource = "wall_"+clr;
+								nextWall.setColor("res/" + resource + ".png", clr);
 							}
 							nextWall.setPosition(nextWall.sprite.getX() + lev.viewport.x + lev.viewport.width, nextWall.sprite.getY());
 							lev.makeWall(nextWall);
@@ -131,14 +135,21 @@ public class WallGenerator {
 	public String randColor3(Random rand)
 	{
 		String color = "";
-		int randInt = rand.nextInt(3);
+		int randInt = rand.nextInt(3)+1;
 		color = Level.color[randInt];
 		return color;
 	}
 	public String randColor6(Random rand)
 	{
 		String color = "";
-		int randInt = rand.nextInt(8);
+		int randInt = rand.nextInt(6)+1;
+		color = Level.color[randInt];
+		return color;
+	}
+	public String randColorFINAL(Random rand)
+	{
+		String color = "";
+		int randInt = rand.nextInt(7)+1;
 		color = Level.color[randInt];
 		return color;
 	}

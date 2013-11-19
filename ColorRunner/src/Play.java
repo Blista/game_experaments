@@ -118,7 +118,8 @@ public class Play implements Screen{
 		lev.makeWall("res/bullet.png", 200, 400, 100, 50, "white");
 	 
 		//lev.makeWall("res/bullet.png", 800, 200, 20, 600);
-		*/lev.gen.addTexString("res/bullet.png");
+		*/
+		lev.gen.addTexString("res/bullet.png");
 		
 		lev.setStartPos(100, 500);
 		return lev;
