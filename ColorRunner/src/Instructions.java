@@ -36,7 +36,7 @@ public class Instructions implements Screen
 	//label style
 	private LabelStyle textStyle;
 	//labels for text telling them instructions left right jump or and color
-	private Label leftRightText,jumpText,or, or2, changeColor; 
+	private Label leftRightText,jumpText,or, or2, changeColor, help ; 
 	//button to go back to main menu
 	private TextButton back;
 	//button to handle the text on buttons
@@ -123,6 +123,11 @@ public class Instructions implements Screen
 		//plus = new Label("+")
 		or = new Label("Or", textStyle);
 		or2 = new Label("Or", textStyle);
+		help = new Label("Go through walls by being the same color. \n" +
+				"You will always collide with white walls. \n" +
+				"Mix colors to get different combinations. \n" +
+				"Also try out wall jumping!"
+				, textStyle);
 		
 		//adds everything to the table and centers it all correctly sort of
 		table.top();
@@ -134,13 +139,13 @@ public class Instructions implements Screen
 		table.add(left).width(100);
 		table.getCell(left).pad(10);
 		table.add(or).pad(10).right().padRight(40);
-		table.add(right).pad(10);
+		table.add(right).width(100);
 		table.add(leftRightText).left().padLeft(40);
 		table.row();
 	
 		table.add(jump).pad(10);
 		table.add(or2).pad(10);
-		table.add(jump2).pad(10);
+		table.add(jump2).width(150);
 		table.add(jumpText).left().padLeft(40);
 		table.row();
 		
@@ -150,8 +155,9 @@ public class Instructions implements Screen
 		table.add(p).pad(10);
 		table.add(changeColor).left().padLeft(40);
 		table.row();
-		
-		table.add(back).spaceTop(100).colspan(4);
+		table.add(help).colspan(4);
+		table.row();
+		table.add(back).spaceTop(30).colspan(4);
 
 		//table.debug();
 		

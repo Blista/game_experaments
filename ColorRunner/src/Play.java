@@ -107,6 +107,7 @@ public class Play implements Screen{
 		lev1.addPregen(fab7());
 		lev1.addPregen(fab8());
 		lev1.addPregen(fab9());
+		lev1.addPregen(fab10());
 		tempLvl.add(lev1);
 		
 		levels = (Level[]) tempLvl.toArray(new Level[0]);
@@ -167,7 +168,7 @@ public class Play implements Screen{
 		set.add(new Entity("res/bullet.png", 300,590,100,20,"white"));
 		set.add(new Entity("res/bullet.png", 300,190,200,20,"white"));
 		set.add(new Entity("res/bullet.png", 480,350,20,260,"red"));
-		set.add(new Entity("res/bullet.png", 600,600,20,200,"red"));
+		set.add(new Entity("res/bullet.png", 600,500,20,200,"red"));
 		set.add(new Entity("res/bullet.png", 600,0,20,400,"white"));
 		set.add(new Entity("res/bullet.png", 750,300,100,20,"white"));
 		
@@ -283,6 +284,40 @@ public class Play implements Screen{
 		set.add(new Entity("res/bullet.png", 450,150,100,20, "blue"));
 		set.add(new Entity("res/bullet.png", 660,0,40,700, "orange"));
 		set.add(new Entity("res/bullet.png", 720,400,120,20, "orange"));
+		
+		return set;
+	}
+	
+	public LinkedList<Entity> fab10() {
+		LinkedList<Entity> set = new LinkedList<Entity>();
+		
+		set.add(new Entity("res/bullet.png", 0,300,400,20, "white"));
+		
+		set.add(new Entity("res/bullet.png", 0,520,20,180, "white"));
+		set.add(new Entity("res/bullet.png", 0,500,540,20, "white"));
+		
+		set.add(new Entity("res/bullet.png", 380,0,20,300, "white"));
+		set.add(new Entity("res/bullet.png", 520,300,20,200, "white"));
+		
+		set.add(new Entity("res/bullet.png", 380,0,20,300, "white"));
+		set.add(new Entity("res/bullet.png", 520,280,20,240, "white"));
+		set.add(new Entity("res/bullet.png", 380,0,20,320, "white"));
+		set.add(new Entity("res/bullet.png", 520,280,400,20, "white"));
+		
+		set.add(new Entity("res/bullet.png", 20,320,20,180, "red"));
+		set.add(new Entity("res/bullet.png", 140,320,20,180, "yellow"));
+		set.add(new Entity("res/bullet.png", 260,320,20,180, "blue"));
+		set.add(new Entity("res/bullet.png", 380,320,20,180, "orange"));
+		
+		set.add(new Entity("res/bullet.png", 400,300,120,20, "purple"));
+		
+		set.add(new Entity("res/bullet.png", 520,20,20,260, "green"));
+		set.add(new Entity("res/bullet.png", 640,20,20,260, "red"));
+		set.add(new Entity("res/bullet.png", 760,20,20,260, "yellow"));
+		set.add(new Entity("res/bullet.png", 880,20,20,260, "blue"));
+	
+
+		set.add(new Entity("res/bullet.png", 380,0,540,20, "white"));
 		
 		return set;
 	}
