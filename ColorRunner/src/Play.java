@@ -3,10 +3,8 @@ import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -24,6 +22,7 @@ public class Play implements Screen{
 	SpriteBatch batch;
 	//LinkedList<Entity> entities, toAdd, toRemove;
 	Player player;
+	Texture background;
 	Rectangle viewport;
 	//levels that create the walls
 	Level[] levels;
@@ -34,6 +33,7 @@ public class Play implements Screen{
 	private BitmapFont white;
 	//int for the score
 	private int score = 0; 
+	private long startTime;
 	//string for the score
 	public static String scoreString;
 	
@@ -49,11 +49,13 @@ public class Play implements Screen{
 
 	@Override
 	public void render(float delta) {
+		levels[gameProg].setScore(score);
 		levels[gameProg].update(delta);//Gdx.graphics.getDeltaTime());
-		score += 1;
+		score = (int)(System.currentTimeMillis() - startTime)/10;
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
+		batch.draw(background,0,0);
 		scoreString = "Score: " + score;
 		white.draw(batch, scoreString, 20, Gdx.graphics.getHeight() - 50);
 		if(gameProg < 6)levels[gameProg].render(batch);
@@ -81,6 +83,8 @@ public class Play implements Screen{
 		//creates the sprite batch and font
 		batch = new SpriteBatch();
 		white = new BitmapFont(Gdx.files.internal("res/white.fnt"), false);
+		background = new Texture(Gdx.files.internal("res/background2.png"));
+		background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		
 		if(viewport == null){
 			viewport = new Rectangle(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -110,6 +114,7 @@ public class Play implements Screen{
 		levels[gameProg].levelStart(Gdx.graphics.getDeltaTime());
 		Gdx.input.setInputProcessor(player);
 		
+		startTime = System.currentTimeMillis();
 
 	}
 	
@@ -130,7 +135,7 @@ public class Play implements Screen{
 		*/
 		lev.gen.addTexString("res/bullet.png");
 		
-		lev.setStartPos(100, 500);
+		lev.setStartPos(260, 500);
 		return lev;
 	}
 	
@@ -174,7 +179,8 @@ public class Play implements Screen{
 		LinkedList<Entity> set = new LinkedList<Entity>();
 		
 		set.add(new Entity("res/bullet.png",0,550,100,20,"white"));
-		set.add(new Entity("res/bullet.png",0,100,300,20,"red"));
+		set.add(new Entity("res/bullet.png",0,0,20,550,"white"));
+		set.add(new Entity("res/bullet.png",20,100,280,20,"red"));
 		set.add(new Entity("res/bullet.png",80,300,120,20,"red"));
 		set.add(new Entity("res/bullet.png",200,300,20,400,"white"));
 		set.add(new Entity("res/bullet.png",250,200,100,20, "blue"));
@@ -192,11 +198,11 @@ public class Play implements Screen{
 		set.add(new Entity("res/bullet.png", 100,0,20,700, " red"));
 		set.add(new Entity("res/bullet.png", 200,500, 100, 20, "white"));
 		set.add(new Entity("res/bullet.png", 350,0,20,700,"yellow"));
-		set.add(new Entity("res/bullet.png", 450,600,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 450,550,50,20, "white"));
 		set.add(new Entity("res/bullet.png", 550,0,20,700, "blue"));
-		set.add(new Entity("res/bullet.png", 650,650,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 650,300,50,20, "white"));
 		set.add(new Entity("res/bullet.png", 750,0,20,700, "orange"));
-		set.add(new Entity("res/bullet.png", 810,550,100,20, "white"));
+		set.add(new Entity("res/bullet.png", 810,400,100,20, "white"));
 		
 		return set;
 	}
@@ -252,16 +258,16 @@ public class Play implements Screen{
 	public LinkedList<Entity> fab8() {
 		LinkedList<Entity> set = new LinkedList<Entity>();
 		
-		set.add(new Entity("res/bullet.png", 0,200,50,20, "red"));
-		set.add(new Entity("res/bullet.png",20,310,20,400,"white"));
-		set.add(new Entity("res/bullet.png",100,100,20,500,"white"));
-		set.add(new Entity("res/bullet.png",120,400,200,20,"blue"));
-		set.add(new Entity("res/bullet.png",160,0,280,20,"white"));
-		set.add(new Entity("res/bullet.png",320,400,20,300,"white"));
-		set.add(new Entity("res/bullet.png", 450,0,20,700,"yellow"));
-		set.add(new Entity("res/bullet.png",500,0,30,20, "yellow"));
-		set.add(new Entity("res/bullet.png",550,0,20,700, "yellow"));
-		set.add(new Entity("res/bullet.png",590,0,30,20, "yellow"));
+		set.add(new Entity("res/bullet.png", 0,200,80,20, "red"));
+		set.add(new Entity("res/bullet.png",50,330,20,400,"white"));
+		set.add(new Entity("res/bullet.png",130,70,20,530,"white"));
+		set.add(new Entity("res/bullet.png",150,400,200,20,"blue"));
+		set.add(new Entity("res/bullet.png",190,0,280,20,"white"));
+		set.add(new Entity("res/bullet.png",350,400,20,300,"white"));
+		set.add(new Entity("res/bullet.png", 480,0,20,700,"yellow"));
+		set.add(new Entity("res/bullet.png",530,0,30,20, "yellow"));
+		set.add(new Entity("res/bullet.png",580,0,20,700, "yellow"));
+		set.add(new Entity("res/bullet.png",620,0,30,20, "yellow"));
 		
 		return set;
 	}
@@ -271,13 +277,13 @@ public class Play implements Screen{
 		
 		set.add(new Entity("res/bullet.png", 0,500,50,20,"white"));
 		set.add(new Entity("res/bullet.png", 50,500,20,200, "red"));
-		set.add(new Entity("res/bullet.png",70,300,50,20,"red"));
-		set.add(new Entity("res/bullet.png",120,300,20,200,"yellow"));
-		set.add(new Entity("res/bullet.png",140,100,50,20,"yellow"));
-		set.add(new Entity("res/bullet.png",190,100,20,200, "blue"));
-		set.add(new Entity("res/bullet.png", 290,150,100,20, "blue"));
-		set.add(new Entity("res/bullet.png", 500,0,40,700, "orange"));
-		set.add(new Entity("res/bullet.png", 520,400,120,20, "orange"));
+		set.add(new Entity("res/bullet.png", 150,380,50,20,"red"));
+		set.add(new Entity("res/bullet.png", 200,380,20,200,"yellow"));
+		set.add(new Entity("res/bullet.png", 300,260,50,20,"yellow"));
+		set.add(new Entity("res/bullet.png", 350,260,20,200, "blue"));
+		set.add(new Entity("res/bullet.png", 450,150,100,20, "blue"));
+		set.add(new Entity("res/bullet.png", 660,0,40,700, "orange"));
+		set.add(new Entity("res/bullet.png", 720,400,120,20, "orange"));
 		
 		return set;
 	}
