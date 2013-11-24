@@ -79,8 +79,15 @@ public class Entity {
 		sprite.draw(batch);
 	}
 	
-	public void setColor(String colorParam)
+	public void setColor(String imgLoc, String colorParam)
 	{
+
+		manager.load(imgLoc, Texture.class);
+		manager.finishLoading();
+		
+		entityTex = manager.get(imgLoc, Texture.class);
+		sprite.setTexture(entityTex);
+		
 		color = colorParam;
 	}
 	
