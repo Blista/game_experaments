@@ -62,18 +62,22 @@ public class WallGenerator {
 			
 			if(old == null){
 				x = lev.player.sprite.getX() - 200;
-				y = lev.player.sprite.getY() - 60;
+				y = lev.player.sprite.getY() - 120;
 				width = 800;
 				height = 20;
 				r = new Rectangle(x, y, width, height);
 				lev.makeWall(texts[0], r, "white");
 			}else{
-				if(rand.nextInt(5) == 3){
+				if(rand.nextInt(1) == 0){
 					LinkedList<Entity> nextGens = pregens[rand.nextInt(pregens.length)];
 					
+					int fabcheck = 0;
 					while(nextGens.peekFirst() == null || (nextGens.peekFirst().sprite.getY() + nextGens.peekFirst().sprite.getHeight() > range / 2.0 + old.y + old.height) || (nextGens.peekFirst().sprite.getY() + nextGens.peekFirst().sprite.getHeight() < old.y + old.height - range / 2.0)){
-						nextGens = pregens[rand.nextInt(pregens.length)];
+						fabcheck = rand.nextInt(pregens.length);
+						nextGens = pregens[fabcheck];
 					}
+					
+					System.out.println("Last level: " + fabcheck);
 					
 					if(nextGens.peekFirst() != null){
 						Iterator<Entity> iter = nextGens.listIterator(0);
@@ -83,7 +87,12 @@ public class WallGenerator {
 							Entity nextWall = new Entity(template.entityTex, template.sprite.getX(), template.sprite.getY(), template.sprite.getWidth(), template.sprite.getHeight(), template.getColor());
 							
 							if(nextWall.getColor() != "white"){
-								String clr = randColor3(new Random());
+								String clr;
+								if(lev.score > 5000){
+									clr = randColor6(new Random());
+								}else{
+									clr = randColor3(new Random());
+								}
 								String resource;
 								if(clr == "white") resource = "bullet";
 								else resource = "wall_"+clr;

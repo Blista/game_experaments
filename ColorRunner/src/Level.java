@@ -31,6 +31,7 @@ public class Level {
 	float startX, startY;
 	//the speed at which the level moves
 	float levelSpeed;
+	int score;
 	// rectangle to know the bounds of the screen
 	Rectangle viewport;
 	//array of all the different colors
@@ -56,6 +57,8 @@ public class Level {
 		bgm = manager.get("res/livingTooLong.mp3", Music.class);
 		bgm.play();
 		bgm.setLooping(true);
+		
+		score = 0;
 		
 		color[0] = "white";
 		color[1] = "red";
@@ -113,6 +116,10 @@ public class Level {
 		startY = y;
 	}
 	
+	public void setScore(int score){
+		this.score = score;
+	}
+	
 	/**
 	 * starts the level
 	 * @param delta
@@ -140,7 +147,7 @@ public class Level {
 
 		
 		for(Entity w : walls){
-			w.velocity.x = -levelSpeed;
+			w.velocity.x = -levelSpeed - Math.max(score /100 -10, score / 1000);
 			w.sprite.translate(w.velocity.x * delta, w.velocity.y * delta);
 			player.update(0);
 			w.update(delta);
@@ -182,7 +189,7 @@ public class Level {
 		}
 		
 		//if(!viewport.contains(player.hitbox) && !viewport.overlaps(player.hitbox))
-		if(player.sprite.getX() + player.sprite.getWidth() < viewport.x || player.sprite.getY() + player.sprite.getHeight() + 10 < viewport.y)
+		if(player.sprite.getX() + player.sprite.getWidth() + 10 < viewport.x || player.sprite.getY() + player.sprite.getHeight() + 10 < viewport.y)
 		{
 			bgm.stop();
 			bgm.dispose();
