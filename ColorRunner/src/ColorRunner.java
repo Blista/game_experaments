@@ -12,8 +12,8 @@ public class ColorRunner extends Game{
 	
 	@Override
 	public void create() {	
-		setScreen(new Play());//Splash());
-		//setScreen(new Instructions());
+		setScreen(new Splash());//new Play());//
+		setScreen(new Instructions());
 	}
 
 	@Override

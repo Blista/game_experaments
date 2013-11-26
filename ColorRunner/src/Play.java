@@ -100,7 +100,7 @@ public class Play implements Screen{
 		Level lev1 = lev1();
 		lev1.addPregen(fab1());
 		lev1.addPregen(fab2());
-		lev1.addPregen(fab3());
+		//lev1.addPregen(fab3());
 		lev1.addPregen(fab4());
 		lev1.addPregen(fab5());
 		lev1.addPregen(fab6());
@@ -175,7 +175,7 @@ public class Play implements Screen{
 		return set;
 	}
 	
-	public LinkedList<Entity> fab3() {
+	public LinkedList<Entity> fab3() { // this is pretty hard
 		LinkedList<Entity> set = new LinkedList<Entity>();
 		
 		set.add(new Entity("res/bullet.png",0,550,100,20,"white"));
@@ -232,7 +232,7 @@ public class Play implements Screen{
 		set.add(new Entity("res/bullet.png", 350,0,20,700,"yellow"));
 		set.add(new Entity("res/bullet.png", 450,402,50,20, "white"));
 		set.add(new Entity("res/bullet.png", 550,0,20,700, "blue"));
-		set.add(new Entity("res/bullet.png", 650,536,50,20, "white"));
+		set.add(new Entity("res/bullet.png", 650,506,50,20, "white"));
 		set.add(new Entity("res/bullet.png", 750,0,20,700, "orange"));
 		set.add(new Entity("res/bullet.png", 810,580,100,20, "white"));
 		

@@ -55,20 +55,20 @@ public class WallGenerator {
 			
 			wait = true;
 			float x, y = 0, width, height = 0;
-			float range = 300;
+			float range = 260;
 			Rectangle r;
 			
 			x = lev.viewport.x + lev.viewport.width + 1;
 			
 			if(old == null){
 				x = lev.player.sprite.getX() - 200;
-				y = lev.player.sprite.getY() - 120;
+				y = lev.player.sprite.getY() - 200;
 				width = 800;
 				height = 20;
 				r = new Rectangle(x, y, width, height);
 				lev.makeWall(texts[0], r, "white");
 			}else{
-				if(rand.nextInt(1) == 0){
+				if(rand.nextInt(3) == 0){
 					LinkedList<Entity> nextGens = pregens[rand.nextInt(pregens.length)];
 					
 					int fabcheck = 0;
@@ -114,12 +114,12 @@ public class WallGenerator {
 						width = 100;
 						height = 20;
 						//y =  lev.viewport.y + lev.viewport.height - rand.nextFloat()*(range) - (lev.player.sprite.getHeight()*3);
-						y =  rand.nextFloat()*(lev.viewport.y + lev.viewport.height - (lev.player.sprite.getHeight()*3 - 20));
+						y =  rand.nextFloat()*(range/2) + (lev.viewport.y + lev.viewport.height - (lev.player.sprite.getHeight()*3)) - range/2;
 					}else{
 						width = 100;
 						height = 20;
 						//y = rand.nextFloat()*(range) + old.y + old.height - range/2;
-						y = rand.nextFloat()*(old.y + old.height + range/2);
+						y = rand.nextFloat()*(range) + (old.y + old.height - range/2);
 					}
 					
 					if(y < 0){
@@ -135,7 +135,7 @@ public class WallGenerator {
 			float scale = ((y+height) / (range/(float)2.0)); 
 			if(scale > 1){ scale = 1;}
 			
-			nextDist = rand.nextFloat()*(220 - scale*100);
+			nextDist = rand.nextFloat()*(180 - scale*100);
 			//System.out.println(nextDist);
 			
 
